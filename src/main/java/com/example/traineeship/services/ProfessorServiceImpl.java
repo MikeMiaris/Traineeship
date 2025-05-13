@@ -37,7 +37,8 @@ public class ProfessorServiceImpl implements ProfessorService{
 
 	@Override
 	public List<TraineeshipPosition> retrieveAssignedPositions() {
-        List<Professor> allProfessors = professorMapper.findAll();
+        
+		List<Professor> allProfessors = professorMapper.findAll();
         List<TraineeshipPosition> result = new ArrayList<>();
 
         for (Professor prof : allProfessors) {
