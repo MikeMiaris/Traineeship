@@ -1,6 +1,8 @@
 package com.example.traineeship.domainmodel;
 
 import java.util.List;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 import jakarta.persistence.*;
 
@@ -10,9 +12,6 @@ import jakarta.persistence.*;
 public class Company {
 	
 	@Id
-	@Column(name = "company_id")
-	private int id;
-	
 	@Column(name = "username")
 	private String username;
 	
@@ -22,11 +21,16 @@ public class Company {
 	@Column(name = "companyLocation")
 	private String companyLocation;
 	
-	@OneToMany(mappedBy="company")
-	private List<TraineeshipPosition> positions ; //Initialize??
+	// D: cascade type is still SQL related
+	// manages this list on delete/update
+	// lazy fetch means we better control data retrieved
+	@OneToMany(	cascade = CascadeType.ALL,
+				fetch = FetchType.LAZY,
+				mappedBy="company")
+	private List<TraineeshipPosition> positions ;
 	
 	
-	//contructors
+	//constructors
 	public Company() {
 		super();
 	}
@@ -36,6 +40,7 @@ public class Company {
 		this.username = username;
 		this.companyName = companyName;
 		this.companyLocation = companyLocation;
+		this.positions = new ArrayList<>();
 	}
 	
 	
@@ -72,5 +77,62 @@ public class Company {
         this.positions = positions;
     }
 	
-	
+	// D: Functions to implement User Stories
+    
+    // anything that implements positions needs rework after traineeships get changed
+    
+    // D: Function that gets non occupied positions
+    public List<TraineeshipPosition> nonTakenPositions(){
+    	List<TraineeshipPosition> nonTaken = new ArrayList<>();
+    	for (int i = 0; i < positions.size(); i++) {
+    		if (!positions.get(i).isAssigned()) {
+    			nonTaken.add(positions.get(i));
+    		}
+    	}
+    	return nonTaken;
+    }
+    
+    // D: Function that gets occupied positions
+    public List<TraineeshipPosition> takenPositions(){
+    	List<TraineeshipPosition> taken = new ArrayList<>();
+    	for (int i = 0; i < positions.size(); i++) {
+    		if (positions.get(i).isAssigned()) {
+    			taken.add(positions.get(i));
+    		}
+    	}
+    	return taken;
+    }
+    
+    // D: Function that adds a new position
+    // assume that dates are given as array of ints (Y, M, D)
+    public void announcePosition(String title, String description, int[] startDate, int[] endDate, String topics, String skills) {
+    	LocalDate fromDate = LocalDate.of(startDate[0], startDate[1], startDate[2]);
+    	LocalDate toDate = LocalDate.of(endDate[0], endDate[1], endDate[2]);
+    	TraineeshipPosition newPos = new TraineeshipPosition(title, description, fromDate, toDate, topics, skills);
+    	positions.add(newPos);
+    }
+    
+    // D: Function that deletes a position based on title
+    public void removePosition(String title) {
+    	for (int i = 0; i < positions.size(); i++) {
+    		if (positions.get(i).getTitle().equals(title)) {
+    			positions.remove(i);
+    		}
+    	}
+    }
+    
+    // D: Function that adds an evaluation on a position
+    public void evaluatePosition(String title, EvaluationType evalType, int motivation, int efficiency, int effectiveness) {
+    	for (int i = 0; i < positions.size(); i++) {
+    		if (positions.get(i).getTitle().equals(title)) {
+    			Evaluation eval = new Evaluation(evalType, motivation, efficiency, effectiveness);
+    			// D: just add an evaluation here
+    			// so instead of getting/setting combo
+    			// add new function
+    			// FIX !!!!!!!!!!!!!!!!!!!!!!!!!!
+    			positions.get(i).setEvaluations(positions.get(i).getEvaluations().add(eval));
+    		}
+    	}
+    }
 }
+
