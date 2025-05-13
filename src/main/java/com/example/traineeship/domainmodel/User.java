@@ -1,21 +1,44 @@
 package com.example.traineeship.domainmodel;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 
 @Entity
 @Table(name = "users")
 public class User implements UserDetails{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
     
-    @Column(name = "username", unique = true)
+	@Id    
+    @Column(name = "username", unique =true)
+	@NotBlank(message = "Username can not be empty.")
 	private String username;
 	
     @Column(name = "password")
+    @NotBlank(message = "User's password can not be empty.")
     private String password;
-	
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name="role")
     private Role role;
+    
+    // D: constructor only to be called by Professors,Students,etc
+    public User() {
+    	super();
+    }
+    
+    // D: Authorities only handled in User
+    @Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		 SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
+	     return Collections.singletonList(authority);
+	}
 	
     //Getters and Setters
 	@Override
@@ -36,7 +59,6 @@ public class User implements UserDetails{
         this.password = password;
     }
 
-    @Override
     public Role getRole() {
         return role;
     }
@@ -44,4 +66,6 @@ public class User implements UserDetails{
     public void setRole(Role role) {
         this.role = role;
     }
+    
+    
 }
