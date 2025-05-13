@@ -26,8 +26,7 @@ public class ProfessorServiceImpl implements ProfessorService{
 
 	@Override
 	public Professor retrieveProfile(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		return professorMapper.findByUsername(username);
 	}
 
 	@Override
