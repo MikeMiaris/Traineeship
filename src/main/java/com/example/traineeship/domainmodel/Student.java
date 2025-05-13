@@ -2,22 +2,23 @@ package com.example.traineeship.domainmodel;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "students")
 public class Student {
 
 	@Id
-	@Column(name = "student_id")
-	private int id;
-	
-	@Column(name = "username")
+	@Column(name = "username", unique = true)
+	@NotBlank(message = "Username can not be empty.")
 	private String username; //primary key
 	
 	@Column(name = "studentName")
+	@NotBlank(message = "Student Name can not be empty.")
 	private String studentName;
 	
 	@Column(name = "AM")
+	@NotBlank(message = "AM can not be empty.")
 	private String AM;
 	
 	@Column(name = "avgGrade")
@@ -35,9 +36,28 @@ public class Student {
 	@Column(name = "lookingForTraineeship")
 	private boolean lookingForTraineeship;
 	
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "TraineeshipPosition")
+    
     @JoinColumn(name = "assigned_position_id")
     private TraineeshipPosition assignedTraineeship; //CHECK THE LOGIC
+    
+    public Student() {
+    	super();
+    }
+    
+    public Student(String username, String studentName, String AM, double avgGrade, String preferredLocation, String interests,
+    		String skills, boolean lookingforTraineeship, TraineeshipPosition assignedTraineeship) {
+		super();
+		this.username = username;
+		this.studentName = studentName;
+		this.AM = AM;
+		this.avgGrade = avgGrade;
+		this.preferredLocation= preferredLocation;
+		this.interests = interests;
+		this.skills = skills;
+		this.lookingForTraineeship = lookingforTraineeship;
+		this.assignedTraineeship = assignedTraineeship;
+	}
 	
     //Getters and setters
     public String getUsername() {
