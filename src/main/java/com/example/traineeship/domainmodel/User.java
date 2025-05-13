@@ -40,7 +40,28 @@ public class User implements UserDetails{
 	     return Collections.singletonList(authority);
 	}
 	
-    //Getters and Setters
+    @Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+    
+    @Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+    
+    @Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+    
+    @Override
+	public boolean isEnabled() {
+		return true;
+	}
+    
+    // E: Maybe serialize/de-serialize Users
+    // Functions 
 	@Override
     public String getUsername() {
         return username;
