@@ -8,7 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.traineeship.domainmodel.User;
-import com.example.traineeship.domainmodel.UserDetails;
+import org.springframework.security.core.userdetails.UserDetails;
 import com.example.traineeship.mappers.UserMapper;
 
 public class UserServiceImpl {
