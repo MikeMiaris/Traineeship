@@ -21,7 +21,7 @@ public class Professor {
 	@Column(name = "interests")
 	private String interests;
 	
-	@OneToMany(mappedBy="supervisor") //OR MANYTOMANY WELL SEE!!!!!!!!!!
+	@OneToMany(mappedBy="supervisor")
 	List<TraineeshipPosition> supervisedPositions;
     
 	//Getters and Setters
