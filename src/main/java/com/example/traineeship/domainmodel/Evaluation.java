@@ -23,6 +23,9 @@ public class Evaluation {
 	@Column(name = "effectiveness")
 	private int effectiveness;
 	
+	
+	private TraineeshipPosition position;
+	
 	//Constructors
 	public Evaluation() {
 		
