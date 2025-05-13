@@ -4,12 +4,13 @@ import java.time.LocalDate;
 import java.util.List;
 import jakarta.persistence.*;
 
-@Entity @Table(name="positions")
+@Entity 
+@Table(name="positions")
 public class TraineeshipPosition {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private int id;
 	
 	@Column(name = "title")
 	private String title;
