@@ -1,6 +1,6 @@
 package com.example.traineeship.services;
 
-import com.example.traineeship.domainmodel.UserDetails;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserDetailsService {
 	
