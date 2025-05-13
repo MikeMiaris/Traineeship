@@ -10,7 +10,7 @@ public class TraineeshipPosition {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	@Column(name = "title")
 	private String title;
