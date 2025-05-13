@@ -8,7 +8,7 @@ import com.example.traineeship.domainmodel.TraineeshipPosition;
 
 public interface ProfessorService {
 
-	Professor retreiveProfile(String username);
+	Professor retrieveProfile(String username);
 	void saveProfile(Professor professor);
 	List<TraineeshipPosition> retrieveAssignedPositions();
 	void evaluateAssignedPosition(Integer position);

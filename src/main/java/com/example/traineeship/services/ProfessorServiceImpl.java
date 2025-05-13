@@ -25,7 +25,7 @@ public class ProfessorServiceImpl implements ProfessorService{
     private EvaluationMapper evaluationMapper;
 
 	@Override
-	public Professor retreiveProfile(String username) {
+	public Professor retrieveProfile(String username) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -49,15 +49,12 @@ public class ProfessorServiceImpl implements ProfessorService{
 
 	@Override
 	public void evaluateAssignedPosition(Integer position) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void saveEvaluation(Integer positionId, Evaluation evaluation) {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
+    }
 	
 }
