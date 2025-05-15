@@ -10,7 +10,6 @@ public class Student {
 
 	@Id
 	@Column(name = "username", unique = true)
-	@NotBlank(message = "Username can not be empty.")
 	private String username; //primary key
 	
 	@Column(name = "studentName")
@@ -37,7 +36,6 @@ public class Student {
 	private boolean lookingForTraineeship;
 	
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "TraineeshipPosition")
-    
     @JoinColumn(name = "assigned_position_id")
     private TraineeshipPosition assignedTraineeship; //CHECK THE LOGIC
     
