@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 
 @Entity 
@@ -16,9 +17,11 @@ public class Company {
 	private String username;
 	
 	@Column(name = "companyName")
+	@NotBlank(message = "Company name cannot be blank.")
 	private String companyName;
 	
 	@Column(name = "companyLocation")
+	@NotBlank(message = "Company location cannot be blank.")
 	private String companyLocation;
 	
 	// D: cascade type is still SQL related
