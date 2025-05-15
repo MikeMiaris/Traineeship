@@ -1,6 +1,7 @@
 package com.example.traineeship.services;
 
 import java.util.Collections;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.traineeship.domainmodel.User;
 import com.example.traineeship.mappers.UserMapper;
+
+import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserServiceImpl {
 	@Autowired 
@@ -28,9 +31,11 @@ public class UserServiceImpl {
         return userDAO.findById(user.getUsername()).isPresent();
 	}
 	
-	/*public UserDetails loadUserByUsername(String username) {
-
-	}*/
+	//Copied this from his github, he also had an exception catcher, i skipped that. it's the same as findById so idk
+	
+	 public UserDetails loadUserByUsername(String username) {
+		return userDAO.findById(username).orElse(null);
+	}
 	
 	public User findById(String username) {
         return userDAO.findById(username).orElse(null);
