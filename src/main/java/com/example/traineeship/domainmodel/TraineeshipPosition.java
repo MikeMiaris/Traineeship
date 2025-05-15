@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.util.List;
 import jakarta.persistence.*;
 
-@Entity 
-@Table(name="positions")
+@Entity @Table(name="positions")
 public class TraineeshipPosition {
-
+	
+	// D: leave it in, specified in UML
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -34,26 +34,31 @@ public class TraineeshipPosition {
 	private boolean isAssigned;
 	
 	@Column(name = "studentLogbook")
-	private String studentLogbook; //!!!---!!!
+	private String studentLogbook;
 	
 	@Column(name = "passFailGrade")
 	private boolean passFailGrade;
 	
-	//CHECK CHECK
-	@ManyToOne
-	@JoinColumn(name = "company_id")
+	//D: Student says this is a one-to-one relationship, fixed
+	@OneToOne
+	@JoinColumn(name = "student")
 	private Student student;
 	
 	@ManyToOne
-	@JoinColumn(name = "professor_id")
+	@JoinColumn(name = "professor")
 	private Professor supervisor;
 	
-	@ManyToOne
-	@JoinColumn(name = "company_id")
+	// D: Definitely many-to-one, just check for defining mapping etc here => bidirectional
+	// no mappedBy in manyToOne (error)
+	@ManyToOne(	cascade = CascadeType.ALL,
+				fetch = FetchType.EAGER)
+	@JoinColumn(name = "company")
 	private Company company;
 	
-	@OneToMany(mappedBy = "traineeshipPosition", //CHECK
+	// D: orphanRemoval removes child when not referenced by parent
+	@OneToMany(mappedBy = "traineeshipPosition",
 	           cascade = CascadeType.ALL,
+	           fetch = FetchType.LAZY,
 	           orphanRemoval = true)
 	private List<Evaluation> evaluations;
 
@@ -187,5 +192,20 @@ public class TraineeshipPosition {
 
     public void setEvaluations(List<Evaluation> evaluations){
         this.evaluations = evaluations;
+    }
+    
+    // D: functions
+    
+    // D: function to add an Evaluation to position
+    public void addEvaluation(Role role, int motivation, int efficiency, int effectiveness) {
+    	switch (role) {
+        	case STUDENT:
+        		// D: probably define some error behavior
+        		return;
+        	default:
+        		EvaluationType evaluationType = EvaluationType.valueOf(role.name());
+        		Evaluation eval = new Evaluation(evaluationType, motivation, efficiency, effectiveness);
+        		evaluations.add(eval);
+    }
     }
 }
