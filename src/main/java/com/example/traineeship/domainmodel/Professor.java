@@ -8,10 +8,7 @@ import jakarta.persistence.*;
 @Table(name="professors")
 public class Professor {
 
-	@Id
-	@Column(name = "professor_id")
-	private int id;	
-	
+	@Id	
 	@Column(name = "username")
 	private String username;
 	
