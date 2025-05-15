@@ -24,9 +24,13 @@ public class Company {
 	// D: cascade type is still SQL related
 	// manages this list on delete/update
 	// lazy fetch means we better control data retrieved
+	// mappedBy on both makes relationship bidirectional (in t_p it's going to be mapped by companyName/id)
+	// joinColumn logic same as student, example doesn't follow this logic (unclear)
 	@OneToMany(	cascade = CascadeType.ALL,
 				fetch = FetchType.LAZY,
+				orphanRemoval = true,
 				mappedBy="company")
+	@JoinColumn(name = "position_id") // CHECK!!!!
 	private List<TraineeshipPosition> positions ;
 	
 	
@@ -122,17 +126,12 @@ public class Company {
     }
     
     // D: Function that adds an evaluation on a position
-    public void evaluatePosition(String title, EvaluationType evalType, int motivation, int efficiency, int effectiveness) {
+    public void evaluatePosition(String title, int motivation, int efficiency, int effectiveness) {
     	for (int i = 0; i < positions.size(); i++) {
     		if (positions.get(i).getTitle().equals(title)) {
-    			Evaluation eval = new Evaluation(evalType, motivation, efficiency, effectiveness);
-    			// D: just add an evaluation here
-    			// so instead of getting/setting combo
-    			// add new function
-    			// FIX !!!!!!!!!!!!!!!!!!!!!!!!!!
-    			positions.get(i).setEvaluations(positions.get(i).getEvaluations().add(eval));
+    			// D: just add an evaluation here, as Company
+    			positions.get(i).addEvaluation(Role.COMPANY, motivation, efficiency, effectiveness);
     		}
     	}
     }
 }
-
