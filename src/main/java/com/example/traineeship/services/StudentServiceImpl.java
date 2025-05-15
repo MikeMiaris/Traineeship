@@ -15,8 +15,7 @@ public class StudentServiceImpl implements StudentService {
     private final TraineeshipPositionMapper positionMapper;
 
     @Autowired
-    public StudentServiceImpl(StudentMapper studentMapper,
-                              TraineeshipPositionMapper positionMapper) {
+    public StudentServiceImpl(StudentMapper studentMapper, TraineeshipPositionMapper positionMapper) {
         this.studentMapper = studentMapper;
         this.positionMapper = positionMapper;
     }
@@ -28,9 +27,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student retrieveProfile(String studentUsername) {
-        return studentMapper.findById(studentUsername)
-                   .orElseThrow(() ->
-                       new IllegalArgumentException("Student not found: " + studentUsername));
+        return studentMapper.findById(studentUsername).orElseThrow(() -> new IllegalArgumentException("Student not found: " + studentUsername));
     }
 
     @Override
