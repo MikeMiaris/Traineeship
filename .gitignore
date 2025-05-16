@@ -33,3 +33,5 @@ build/
 .vscode/
 target/classes/META-INF/maven/com.example/traineeship/pom.properties
 target/classes/META-INF/MANIFEST.MF
+target/classes/META-INF/MANIFEST.MF
+target/classes/META-INF/maven/com.example/traineeship/pom.properties
