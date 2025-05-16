@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Supervised Traineeships</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+  <h1>Supervised Traineeship Positions</h1>
+  <table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Evaluate</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="pos : ${positions}">
+        <td th:text="${pos.title}">Position Title</td>
+        <td th:text="${pos.fromDate}">2025-01-01</td>
+        <td th:text="${pos.toDate}">2025-06-01</td>
+        <td>
+          <a th:href="@{/professor/evaluate/{id}(id=${pos.id})}">Evaluate</a>
+        </td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(positions)}">
+        <td colspan="4">No supervised positions found.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p><a th:href="@{/professor/profile}">Edit Profile</a></p>
+</body>
+</html>
