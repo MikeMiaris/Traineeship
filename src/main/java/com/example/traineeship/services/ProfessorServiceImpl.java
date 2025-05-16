@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.example.traineeship.domainmodel.Evaluation;
 import com.example.traineeship.domainmodel.Professor;
@@ -13,6 +14,7 @@ import com.example.traineeship.mappers.EvaluationMapper;
 import com.example.traineeship.mappers.ProfessorMapper;
 import com.example.traineeship.mappers.TraineeshipPositionMapper;
 
+@Service
 public class ProfessorServiceImpl implements ProfessorService{
 
     @Autowired
@@ -38,18 +40,18 @@ public class ProfessorServiceImpl implements ProfessorService{
 	@Override
 	public List<TraineeshipPosition> retrieveAssignedPositions() {
         
-		List<Professor> allProfessors = professorMapper.findAll();
-        List<TraineeshipPosition> result = new ArrayList<>();
-
-        for (Professor prof : allProfessors) {
-            result.addAll(prof.getSupervisedPositions());
-        }
-        return result;
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Professor prof = professorMapper.findByUsername(username);
+        return prof != null ? prof.getSupervisedPositions() : new ArrayList<>();
 	}
 
 	@Override
-	public void evaluateAssignedPosition(Integer position) {
-		
+	public void evaluateAssignedPosition(Integer positionId) {
+        TraineeshipPosition pos = positionMapper.findById(positionId).orElseThrow(() -> new IllegalArgumentException("Position not found"));
+            String me = SecurityContextHolder.getContext().getAuthentication().getName();
+            if (pos.getSupervisor() == null || !pos.getSupervisor().getUsername().equals(me)) {
+                throw new SecurityException("Not authorized to evaluate this position");
+            }
 	}
 
 	@Override

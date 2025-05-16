@@ -24,7 +24,6 @@ public class Evaluation {
 	private int effectiveness;
 	
 	
-	private TraineeshipPosition position;
 	
 	//Constructors
 	public Evaluation() {
@@ -72,6 +71,7 @@ public class Evaluation {
     public void setEffectiveness(int effectiveness){
         this.effectiveness = effectiveness;
     }
-	
+
+
 	
 }

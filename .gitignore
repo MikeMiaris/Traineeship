@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+target/classes/META-INF/maven/com.example/traineeship/pom.properties
+target/classes/META-INF/maven/com.example/traineeship/pom.properties

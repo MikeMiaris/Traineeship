@@ -11,7 +11,7 @@ public interface ProfessorService {
 	Professor retrieveProfile(String username);
 	void saveProfile(Professor professor);
 	List<TraineeshipPosition> retrieveAssignedPositions();
-	void evaluateAssignedPosition(Integer position);
+	void evaluateAssignedPosition(Integer positionId);
 	void saveEvaluation(Integer positionId,Evaluation evaluation);
 	
 }

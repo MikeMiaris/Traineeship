@@ -60,6 +60,7 @@ public class TraineeshipPosition {
 	           cascade = CascadeType.ALL,
 	           fetch = FetchType.LAZY,
 	           orphanRemoval = true)
+	@JoinColumn(name = "traineeship_position_id")
 	private List<Evaluation> evaluations;
 
     public TraineeshipPosition(){
