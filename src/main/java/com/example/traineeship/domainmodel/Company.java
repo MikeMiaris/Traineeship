@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 
 
 @Entity 
@@ -17,11 +16,9 @@ public class Company {
 	private String username;
 	
 	@Column(name = "companyName")
-	@NotBlank(message = "Company name cannot be blank.")
 	private String companyName;
 	
 	@Column(name = "companyLocation")
-	@NotBlank(message = "Company location cannot be blank.")
 	private String companyLocation;
 	
 	// D: cascade type is still SQL related
@@ -84,51 +81,25 @@ public class Company {
         this.positions = positions;
     }
 	
-	// D: Functions to implement User Stories
+	// D: Functions to implement User Stories -- PROBABLY IN SERVICES
     
     // anything that implements positions needs rework after traineeships get changed
     
-    // D: Function that gets non occupied positions
-    public List<TraineeshipPosition> nonTakenPositions(){
-    	List<TraineeshipPosition> nonTaken = new ArrayList<>();
-    	for (int i = 0; i < positions.size(); i++) {
-    		if (!positions.get(i).isAssigned()) {
-    			nonTaken.add(positions.get(i));
-    		}
-    	}
-    	return nonTaken;
-    }
-    
-    // D: Function that gets occupied positions
-    public List<TraineeshipPosition> takenPositions(){
-    	List<TraineeshipPosition> taken = new ArrayList<>();
-    	for (int i = 0; i < positions.size(); i++) {
-    		if (positions.get(i).isAssigned()) {
-    			taken.add(positions.get(i));
-    		}
-    	}
-    	return taken;
-    }
-    
     // D: Function that adds a new position
-    // assume that dates are given as array of ints (Y, M, D)
-    public void announcePosition(String title, String description, int[] startDate, int[] endDate, String topics, String skills) {
-    	LocalDate fromDate = LocalDate.of(startDate[0], startDate[1], startDate[2]);
-    	LocalDate toDate = LocalDate.of(endDate[0], endDate[1], endDate[2]);
-    	TraineeshipPosition newPos = new TraineeshipPosition(title, description, fromDate, toDate, topics, skills);
-    	positions.add(newPos);
+    public void announcePosition(TraineeshipPosition position) {
+    	positions.add(position);
     }
     
-    // D: Function that deletes a position based on title
-    public void removePosition(String title) {
+    // D: Function that deletes a position based on title -- might not need TODO
+    public void removePosition(Integer id) {
     	for (int i = 0; i < positions.size(); i++) {
-    		if (positions.get(i).getTitle().equals(title)) {
+    		if (positions.get(i).getId().equals(id)) {
     			positions.remove(i);
     		}
     	}
     }
     
-    // D: Function that adds an evaluation on a position
+    // D: Function that adds an evaluation on a position -- don't need? TODO
     public void evaluatePosition(String title, int motivation, int efficiency, int effectiveness) {
     	for (int i = 0; i < positions.size(); i++) {
     		if (positions.get(i).getTitle().equals(title)) {
