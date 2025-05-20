@@ -1,6 +1,5 @@
 package com.example.traineeship.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,17 +10,18 @@ import com.example.traineeship.domainmodel.Company;
 import com.example.traineeship.domainmodel.Evaluation;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
 import com.example.traineeship.mappers.CompanyMapper;
-// D: to find out company without username as argument
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.example.traineeship.mappers.TraineeshipPositionMapper;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
 	private final CompanyMapper companyMapper;
+	private final TraineeshipPositionMapper traineeshipPositionMapper;
 	
 	@Autowired
-	public CompanyServiceImpl(CompanyMapper companyMapper) {
+	public CompanyServiceImpl(CompanyMapper companyMapper, TraineeshipPositionMapper traineeshipPositionMapper) {
 		this.companyMapper = companyMapper;
+		this.traineeshipPositionMapper = traineeshipPositionMapper;
 	}
 	
 	@Override
@@ -63,12 +63,10 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public List<TraineeshipPosition> retreiveAssignedPositions(String username) {
+	public List<TraineeshipPosition> retrieveAssignedPositions(String username) {
 		Company company =  companyMapper.findById(username)
                 .orElseThrow(() ->
                     new IllegalArgumentException("Company not found: " + username));
-		
-		// D: throw some exception if positions are not found -- TODO
 		
 		return company.getPositions().stream()
 				.filter(position -> position.isAssigned())
@@ -76,27 +74,43 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 	
 	
-	// D: unclear use
+	// D: use to authorize assigned position?
+	// maybe access it with mapper and check if it exists??
 	@Override
-	public void evaluateAssignedPosition(Integer positionId) {
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+	public void evaluateAssignedPosition(String username, Integer positionId) {
+		// get assigned positions
+		List<TraineeshipPosition> positions = retrieveAssignedPositions(username);
 		
-		Company company =  companyMapper.findById(username)
+		// find out whether this company manages position
+		TraineeshipPosition position =  traineeshipPositionMapper.findById(positionId)
                 .orElseThrow(() ->
-                    new IllegalArgumentException("Company not found: " + username));
+                    new IllegalArgumentException("Position doesn't exist: " + positionId));
 		
+		boolean isOK = positions.contains(position);
 		
+		if (!isOK){
+			throw new IllegalArgumentException("Position " + positionId + " is not assigned to your company.");
+		}
 	}
 	
 	// D: save an Evaluation based on positionId
 	@Override
 	public void saveEvaluation(Integer positionId, Evaluation evaluation) {
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		TraineeshipPosition position =  traineeshipPositionMapper.findById(positionId)
+                .orElseThrow(() ->
+                    new IllegalArgumentException("Position doesn't exist: " + positionId));
 		
+		position.addEvaluation(evaluation);
+		
+	}
+	
+	// newly added function to delete some assigned position
+	@Override
+	public void deleteAssignedPosition(String username, Integer positionId) {
 		Company company =  companyMapper.findById(username)
                 .orElseThrow(() ->
                     new IllegalArgumentException("Company not found: " + username));
 		
-		
+		company.removePosition(positionId);
 	}
 }
