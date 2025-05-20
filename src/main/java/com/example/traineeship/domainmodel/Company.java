@@ -1,7 +1,6 @@
 package com.example.traineeship.domainmodel;
 
 import java.util.List;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import jakarta.persistence.*;
@@ -30,7 +29,7 @@ public class Company {
 				fetch = FetchType.LAZY,
 				orphanRemoval = true,
 				mappedBy="company")
-	@JoinColumn(name = "position_id") // CHECK!!!!
+	@JoinColumn(name = "position_id")
 	private List<TraineeshipPosition> positions ;
 	
 	
@@ -81,30 +80,18 @@ public class Company {
         this.positions = positions;
     }
 	
-	// D: Functions to implement User Stories -- PROBABLY IN SERVICES
-    
-    // anything that implements positions needs rework after traineeships get changed
+	// D: Functions needed by Services to implement User Stories
     
     // D: Function that adds a new position
     public void announcePosition(TraineeshipPosition position) {
     	positions.add(position);
     }
     
-    // D: Function that deletes a position based on title -- might not need TODO
+    // D: Function that deletes a position based on title
     public void removePosition(Integer id) {
     	for (int i = 0; i < positions.size(); i++) {
     		if (positions.get(i).getId().equals(id)) {
     			positions.remove(i);
-    		}
-    	}
-    }
-    
-    // D: Function that adds an evaluation on a position -- don't need? TODO
-    public void evaluatePosition(String title, int motivation, int efficiency, int effectiveness) {
-    	for (int i = 0; i < positions.size(); i++) {
-    		if (positions.get(i).getTitle().equals(title)) {
-    			// D: just add an evaluation here, as Company
-    			positions.get(i).addEvaluation(Role.COMPANY, motivation, efficiency, effectiveness);
     		}
     	}
     }
