@@ -12,8 +12,8 @@ public interface CompanyService {
 	void saveProfile(Company company);
 	List<TraineeshipPosition> retrieveAvailablePositions(String username);
 	void addPosition(String username, TraineeshipPosition position);
-	List<TraineeshipPosition> retreiveAssignedPositions(String username);
-	//void deleteAssignedPosition(Integer positionId); -- DON'T NEED? TODO
-	void evaluateAssignedPosition(Integer positionId);
+	List<TraineeshipPosition> retrieveAssignedPositions(String username);
+	void deleteAssignedPosition(String username, Integer positionId);
+	void evaluateAssignedPosition(String username, Integer positionId);
 	void saveEvaluation(Integer positionId, Evaluation evaluation);
 }
