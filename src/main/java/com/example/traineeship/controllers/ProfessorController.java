@@ -5,6 +5,7 @@ import com.example.traineeship.domainmodel.Professor;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
 import com.example.traineeship.services.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,49 +16,78 @@ import java.util.List;
 @RequestMapping("/professor")
 public class ProfessorController {
 
-    @Autowired private ProfessorService professorService;
-
-    // GET /professor/profile — render form for US13
+    @Autowired 
+    private ProfessorService professorService;
+    
+    @GetMapping("/dashboard")
+    public String getProfessorDashboard() {
+    	return "professor/dashboard";
+    }
+    
+    
     @GetMapping("/profile")
     public String retrieveProfile(Model model) {
-        String me = SecurityContextHolder.getContext().getAuthentication().getName();
-        Professor prof = professorService.retrieveProfile(me);
-        if (prof == null) prof = new Professor();
-        prof.setUsername(me);
-        model.addAttribute("profile", prof);
+        
+    	String me = SecurityContextHolder.getContext().getAuthentication().getName();
+        
+        try {
+        	Professor prof = professorService.retrieveProfile(me);
+        	model.addAttribute("profile", prof);
+        }catch(Exception e){
+        	model.addAttribute("error", e.getMessage());
+        	return "redirect/professor/dashboard";
+        }
         return "professor/profile-form";
     }
 
-    // POST /professor/profile — handle profile save
-    @PostMapping("/profile")
-    public String saveProfile(@ModelAttribute("profile") Professor professor) {
-        professor.setUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        professorService.saveProfile(professor);
-        return "redirect:/professor/traineeships";
+    @PostMapping("/save-profile")
+    public String saveProfile(@ModelAttribute("professor") Professor professor, Model model) {
+    	professorService.saveProfile(professor); 
+    	return "redirect:/professor/dashboard";
     }
 
     // GET /professor/traineeships — US14
     @GetMapping("/traineeships")
     public String listAssignedTraineeships(Model model) {
-        List<TraineeshipPosition> list = professorService.retrieveAssignedPositions();
-        model.addAttribute("positions", list);
+    	
+    	try {
+    		String me = SecurityContextHolder.getContext().getAuthentication().getName();
+    		List<TraineeshipPosition> list = professorService.retrieveAssignedPositions(me);
+    		model.addAttribute("positions", list);
+    	}catch(Exception e) {
+    		model.addAttribute("error", e.getMessage());
+    		return "redirect:/professor/dashboard";
+    	}
+        
         return "professor/traineeships";
     }
 
-    // GET /professor/evaluate/{id} — show evaluation form (US15)
     @GetMapping("/evaluate/{positionId}")
-    public String showEvalForm(@PathVariable Integer positionId, Model model) {
-        professorService.evaluateAssignedPosition(positionId);
-        model.addAttribute("evaluation", new Evaluation());
-        model.addAttribute("positionId", positionId);
-        return "professor/evaluation-form";
+    public String evaluateAssignedtraineeship(@PathVariable Integer positionId, Model model) {
+		
+    	String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		try {
+			professorService.evaluateAssignedPosition(positionId, username);
+			model.addAttribute("evaluation", new Evaluation());
+			return "professor/evaluation-form";
+		}
+		catch (Exception e) {
+			model.addAttribute("error", e.getMessage());
+			return "redirect:/professor/traineeships";
+		}
+    
     }
 
-    // POST /professor/evaluate/{id} — handle the submission (US15)
-    @PostMapping("/evaluate/{positionId}")
-    public String submitEval(@PathVariable Integer positionId,
-                             @ModelAttribute Evaluation evaluation) {
-        professorService.saveEvaluation(positionId, evaluation);
-        return "redirect:/professor/traineeships";
+    @PostMapping("/evaluation-form/{positionId}") //CHECK
+    public String saveEvaluation(@PathVariable Integer positionId,@ModelAttribute Evaluation evaluation, Model model) {
+		
+    	try {
+			professorService.saveEvaluation(positionId, evaluation);
+			return "redirect:/professor/traineeships";
+		}catch(Exception e) {
+			model.addAttribute("error", e.getMessage());
+			return "redirect:/professor/traineeships";
+		}
     }
+    
 }

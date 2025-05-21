@@ -1,16 +1,11 @@
 package com.example.traineeship.services;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.example.traineeship.domainmodel.Evaluation;
 import com.example.traineeship.domainmodel.Professor;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
-import com.example.traineeship.mappers.CompanyMapper;
-import com.example.traineeship.mappers.EvaluationMapper;
 import com.example.traineeship.mappers.ProfessorMapper;
 import com.example.traineeship.mappers.TraineeshipPositionMapper;
 
@@ -23,12 +18,19 @@ public class ProfessorServiceImpl implements ProfessorService{
     @Autowired
     private TraineeshipPositionMapper positionMapper;
 
-    @Autowired
-    private EvaluationMapper evaluationMapper;
 
+    
+    @Autowired
+    public ProfessorServiceImpl(ProfessorMapper professorMapper, TraineeshipPositionMapper positionMapper ) {
+    	this.professorMapper = professorMapper;
+    	this.positionMapper = positionMapper;
+    }
+    
+    
 	@Override
 	public Professor retrieveProfile(String username) {
-		return professorMapper.findByUsername(username);
+		return professorMapper.findById(username).orElseThrow(() ->
+        new IllegalArgumentException("Company not found: " + username));
 	}
 
 	@Override
@@ -38,25 +40,37 @@ public class ProfessorServiceImpl implements ProfessorService{
 	}
 
 	@Override
-	public List<TraineeshipPosition> retrieveAssignedPositions() {
+	public List<TraineeshipPosition> retrieveAssignedPositions(String username) {
         
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Professor prof = professorMapper.findByUsername(username);
-        return prof != null ? prof.getSupervisedPositions() : new ArrayList<>();
+        Professor prof = professorMapper.findById(username).orElseThrow(() ->
+        
+        new IllegalArgumentException("Professor not found: " + username));;
+        
+        return prof.getSupervisedPositions();
+        
+
 	}
 
 	@Override
-	public void evaluateAssignedPosition(Integer positionId) {
-        TraineeshipPosition pos = positionMapper.findById(positionId).orElseThrow(() -> new IllegalArgumentException("Position not found"));
-            String me = SecurityContextHolder.getContext().getAuthentication().getName();
-            if (pos.getSupervisor() == null || !pos.getSupervisor().getUsername().equals(me)) {
-                throw new SecurityException("Not authorized to evaluate this position");
-            }
+	public void evaluateAssignedPosition(Integer positionId, String username) {
+        
+		TraineeshipPosition pos = positionMapper.findById(positionId).orElseThrow(() -> new IllegalArgumentException("Position not found"));
+        
+        Professor prof = professorMapper.findById(username).orElseThrow(() ->
+        	new IllegalArgumentException("Professor not found: " + username));
+            
+        if (!pos.getSupervisor().getUsername().equals(prof.getUsername())) {
+        	throw new SecurityException("Not authorized to evaluate this position");
+        }
 	}
 
 	@Override
 	public void saveEvaluation(Integer positionId, Evaluation evaluation) {
 
+		TraineeshipPosition pos = positionMapper.findById(positionId).orElseThrow(() -> new IllegalArgumentException("Position not found"));
+		
+		pos.addEvaluation(evaluation);
+		
     }
 	
 }

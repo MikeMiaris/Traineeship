@@ -1,5 +1,6 @@
 package com.example.traineeship.domainmodel;
 
+import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
 
@@ -18,9 +19,26 @@ public class Professor {
 	@Column(name = "interests")
 	private String interests;
 	
-	@OneToMany(mappedBy="supervisor")
+	@OneToMany(cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			orphanRemoval = true,
+			mappedBy="supervisor")
 	List<TraineeshipPosition> supervisedPositions;
     
+	//Constructors
+	public Professor() {
+		super();
+	}
+	
+	public Professor(String username, String professorName, String interests) {
+		
+		this.username = username;
+		this.professorName = professorName;
+		this.interests = interests;
+		this.supervisedPositions = new ArrayList<>();
+		
+	}
+	
 	//Getters and Setters
     public String getUsername() {
         return username;
@@ -53,4 +71,10 @@ public class Professor {
     public void setSupervisedPositions(List<TraineeshipPosition> supervisedPositions) {
         this.supervisedPositions = supervisedPositions;
     }
+    
+    
+    public void addSupervisedPosition(TraineeshipPosition position) {
+    	supervisedPositions.add(position);
+    }
+    
 }

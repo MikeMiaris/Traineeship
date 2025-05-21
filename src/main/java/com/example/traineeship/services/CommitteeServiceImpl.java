@@ -7,7 +7,7 @@ import com.example.traineeship.domainmodel.TraineeshipPosition;
 
 public class CommitteeServiceImpl {
 	
-	
+	/*
 	
 	List<TraineeshipPosition> retrievePositionsForApplicant(String applicantUsername, String Strategy){
 		
@@ -31,5 +31,5 @@ public class CommitteeServiceImpl {
 	}
 	void completeAssignedTraineeships(Integer positionid) {
 		
-	}
+	} */
 }
