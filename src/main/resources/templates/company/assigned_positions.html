@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Assigned Positions</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Assigned Traineeship Positions</h2>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Trainee Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pos : ${positions}">
+            <td th:text="${pos.title}">Title</td>
+            <td th:text="${pos.traineeName}">Trainee</td>
+            <td>
+                <form th:action="@{/company/evaluate_assigned_traineeship}" method="post" class="d-inline">
+                    <input type="hidden" name="position_id" th:value="${pos.id}"/>
+                    <button type="submit" class="btn btn-primary btn-sm">Evaluate</button>
+                </form>
+                <form th:action="@{/company/delete_position}" method="post" class="d-inline">
+                    <input type="hidden" name="position_id" th:value="${pos.id}"/>
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
