@@ -144,7 +144,7 @@ public class CompanyController {
 		}
 	}
 	
-	// D: now, with an evaluation all set, get to saving MAYBE ERROR BEHAVIOR TODO
+	// D: now, with an evaluation all set, get to saving
 	@RequestMapping("/company/save_evaluation")
 	public String saveEvaluation(@ModelAttribute("position_id") Integer positionId,
 								@ModelAttribute("evaluation") Evaluation evaluation, Model model) {
@@ -158,7 +158,7 @@ public class CompanyController {
 		
 	}
 	
-	// get to remake deletion function, ERRORS TODO
+	// get to remake deletion function
 	@RequestMapping("/company/delete_position")
 	public String deletePosition(@ModelAttribute("position_id") Integer positionId, Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
