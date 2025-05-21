@@ -22,6 +22,12 @@ import com.example.traineeship.services.UserService;
 public class CompanyController {
 	
 	// D: again, a lot of those taken directly from example
+	// we'll have to see what's needed
+	
+	//  try catch exceptions here when calling service functions
+	// for example, evaluate assigned just either:
+	// - brings you to eval form if position exists and is assigned to company
+	// - catches exception and pulls you back with a warning
 	
 	// I'm changing evaluateAssignedTraineeship, it just makes sense to check the correlation only in service
 	// so pass username as argument for the love of god
@@ -94,10 +100,10 @@ public class CompanyController {
 		String username = authentication.getName();
 		try {
 			companyService.addPosition(username, position);
-			return "redirect:/company/list_positions";
+			return "redirect:/company/available_positions";
 		}catch(Exception e) {
 			model.addAttribute("error", e.getMessage());
-			return "redirect:/company/dashboard";
+			return "redirect:/company/available_positions";
 		}
 		
 	}
@@ -138,7 +144,7 @@ public class CompanyController {
 		}
 	}
 	
-	// D: now, with an evaluation all set, get to saving
+	// D: now, with an evaluation all set, get to saving MAYBE ERROR BEHAVIOR TODO
 	@RequestMapping("/company/save_evaluation")
 	public String saveEvaluation(@ModelAttribute("position_id") Integer positionId,
 								@ModelAttribute("evaluation") Evaluation evaluation, Model model) {
@@ -152,6 +158,7 @@ public class CompanyController {
 		
 	}
 	
+	// get to remake deletion function, ERRORS TODO
 	@RequestMapping("/company/delete_position")
 	public String deletePosition(@ModelAttribute("position_id") Integer positionId, Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
