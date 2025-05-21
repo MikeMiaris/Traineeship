@@ -198,15 +198,7 @@ public class TraineeshipPosition {
     // D: functions
     
     // D: function to add an Evaluation to position
-    public void addEvaluation(Role role, int motivation, int efficiency, int effectiveness) {
-    	switch (role) {
-        	case STUDENT:
-        		// D: probably define some error behavior
-        		return;
-        	default:
-        		EvaluationType evaluationType = EvaluationType.valueOf(role.name());
-        		Evaluation eval = new Evaluation(evaluationType, motivation, efficiency, effectiveness);
-        		evaluations.add(eval);
-    }
+    public void addEvaluation(Evaluation evaluation) {
+        evaluations.add(evaluation);
     }
 }
