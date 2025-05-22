@@ -15,7 +15,7 @@ public class SearchBasedOnLocation implements PositionSearchStrategy{
 	TraineeshipPositionMapper PositionMapper;
 	
 	public List<TraineeshipPosition> search(String applicantUsername){
-		Student student = studentMapper.findByUsername(applicantUsername);
+		Student student = studentMapper.findById(applicantUsername).orElseThrow(()-> new IllegalArgumentException("No such applicant"));;
 		if (student == null || student.getPreferredLocation() == null) {
             return Collections.emptyList();
         }

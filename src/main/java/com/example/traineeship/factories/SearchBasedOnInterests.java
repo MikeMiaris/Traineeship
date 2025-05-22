@@ -14,7 +14,7 @@ public class SearchBasedOnInterests implements PositionSearchStrategy {
 	StudentMapper studentMapper;
 	
 	public List<TraineeshipPosition> search(String applicantUsername){
-		Student student = studentMapper.findByUsername(applicantUsername);
+		Student student = studentMapper.findById(applicantUsername).orElseThrow(()-> new IllegalArgumentException("No such applicant"));
 		if (student == null || student.getInterests() == null) {
             return Collections.emptyList();
         }
