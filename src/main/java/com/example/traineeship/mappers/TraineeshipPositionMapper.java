@@ -24,4 +24,7 @@ public interface TraineeshipPositionMapper extends JpaRepository<TraineeshipPosi
 	@Query("Select p FROM TraineeshipPosition p WHERE p.topics = :topic")
 	List<TraineeshipPosition> findBytopic(@Param("topic") String topic);
 	
+	@Query("Select p FROM TraineeshipPosition p WHERE p.isAssigned = true")
+	List<TraineeshipPosition> getallAssigned();
+	
 }
