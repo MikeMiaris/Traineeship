@@ -23,7 +23,11 @@ public class Evaluation {
 	@Column(name = "effectiveness")
 	private int effectiveness;
 	
-	
+	////////////
+	@ManyToOne
+	@JoinColumn(name = "traineeship_position_id")
+	private TraineeshipPosition traineeshipPosition;
+	////////////
 	
 	//Constructors
 	public Evaluation() {

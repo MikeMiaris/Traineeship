@@ -43,8 +43,7 @@ public class ProfessorServiceImpl implements ProfessorService{
 	public List<TraineeshipPosition> retrieveAssignedPositions(String username) {
         
         Professor prof = professorMapper.findById(username).orElseThrow(() ->
-        
-        new IllegalArgumentException("Professor not found: " + username));;
+        	new IllegalArgumentException("Professor not found: " + username));;
         
         return prof.getSupervisedPositions();
         

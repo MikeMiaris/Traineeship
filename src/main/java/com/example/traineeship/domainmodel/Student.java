@@ -35,8 +35,8 @@ public class Student {
 	@Column(name = "lookingForTraineeship")
 	private boolean lookingForTraineeship;
 	
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "TraineeshipPosition")
-    @JoinColumn(name = "assigned_position_id")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "student")
+    //@JoinColumn(name = "assigned_position_id")
     private TraineeshipPosition assignedTraineeship; //CHECK THE LOGIC
     
     public Student() {

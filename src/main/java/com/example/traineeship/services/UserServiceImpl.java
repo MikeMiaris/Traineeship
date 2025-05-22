@@ -2,17 +2,18 @@ package com.example.traineeship.services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+import org.springframework.stereotype.Service;
 import com.example.traineeship.domainmodel.User;
 import com.example.traineeship.mappers.UserMapper;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder; 
 
+@Service
 public class UserServiceImpl implements UserService, UserDetailsService {
-	@Autowired 
-	BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 	@Autowired 
 	UserMapper userDAO;
 	
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	
 	@Override
 	public void saveUser(User user) {
-        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         userDAO.save(user);
 	}

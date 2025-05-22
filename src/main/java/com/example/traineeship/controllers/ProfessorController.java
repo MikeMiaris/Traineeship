@@ -5,7 +5,6 @@ import com.example.traineeship.domainmodel.Professor;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
 import com.example.traineeship.services.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,10 +31,11 @@ public class ProfessorController {
         
         try {
         	Professor prof = professorService.retrieveProfile(me);
-        	model.addAttribute("profile", prof);
+        	model.addAttribute("professor", prof);
         }catch(Exception e){
         	model.addAttribute("error", e.getMessage());
-        	return "redirect/professor/dashboard";
+        	return "redirect:/professor/dashboard";
+
         }
         return "professor/profile-form";
     }

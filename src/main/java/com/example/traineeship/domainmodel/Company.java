@@ -29,7 +29,7 @@ public class Company {
 				fetch = FetchType.LAZY,
 				orphanRemoval = true,
 				mappedBy="company")
-	@JoinColumn(name = "position_id")
+	//@JoinColumn(name = "position_id")
 	private List<TraineeshipPosition> positions ;
 	
 	
