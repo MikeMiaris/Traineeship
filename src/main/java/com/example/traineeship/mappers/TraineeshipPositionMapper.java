@@ -15,17 +15,13 @@ public interface TraineeshipPositionMapper extends JpaRepository<TraineeshipPosi
 
 	Optional<TraineeshipPosition> findById(Integer positionId);
 	
+	
 	@Query("Select p FROM TraineeshipPosition p WHERE p.company.companyLocation = :location")
-	static
-	List<TraineeshipPosition> findByLocation(@Param("location") String location) {
-		return null;
-	}
+	
+	List<TraineeshipPosition> findByLocation(@Param("location") String location);
 	
 	
 	@Query("Select p FROM TraineeshipPosition p WHERE p.topics = :topic")
-	static
-	List<TraineeshipPosition> findBytopic(@Param("topic") String topic) {
-		return null;
-	}
+	List<TraineeshipPosition> findBytopic(@Param("topic") String topic);
 	
 }

@@ -10,7 +10,7 @@ import com.example.traineeship.mappers.StudentMapper;
 import com.example.traineeship.mappers.TraineeshipPositionMapper;
 
 public class SearchBasedOnInterests implements PositionSearchStrategy {
-	CompanyMapper companyMapper;
+	TraineeshipPositionMapper PositionMapper;
 	StudentMapper studentMapper;
 	
 	public List<TraineeshipPosition> search(String applicantUsername){
@@ -20,7 +20,7 @@ public class SearchBasedOnInterests implements PositionSearchStrategy {
         }
 
 
-        List<TraineeshipPosition> positions = TraineeshipPositionMapper.findBytopic(
+        List<TraineeshipPosition> positions = PositionMapper.findBytopic(
             student.getInterests() 
         );
         

@@ -12,7 +12,7 @@ import com.example.traineeship.mappers.TraineeshipPositionMapper;
 public class SearchBasedOnLocation implements PositionSearchStrategy{
 	CompanyMapper companyMapper;
 	StudentMapper studentMapper;
-	TraineeshipPositionMapper TraineeshipPositionMapper;
+	TraineeshipPositionMapper PositionMapper;
 	
 	public List<TraineeshipPosition> search(String applicantUsername){
 		Student student = studentMapper.findByUsername(applicantUsername);
@@ -21,7 +21,7 @@ public class SearchBasedOnLocation implements PositionSearchStrategy{
         }
 
 
-        List<TraineeshipPosition> positions = com.example.traineeship.mappers.TraineeshipPositionMapper.findByLocation(
+        List<TraineeshipPosition> positions = PositionMapper.findByLocation(
             student.getPreferredLocation() 
         );
         
