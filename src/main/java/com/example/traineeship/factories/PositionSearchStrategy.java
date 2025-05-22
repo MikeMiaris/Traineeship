@@ -4,6 +4,6 @@ import java.util.List;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
 
 
-public interface PositionSearchStrategy {
+public interface PositionSearchStrategy{
 	List<TraineeshipPosition> search(String applicantUsername);
 }
