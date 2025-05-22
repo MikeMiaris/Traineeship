@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.traineeship.domainmodel.Company;
@@ -62,8 +63,7 @@ public class CompanyController {
 	@RequestMapping("/company/save_profile")
 	public String saveProfile(@ModelAttribute("company") Company company, Model model) {
 		companyService.saveProfile(company);
-		
-		return "company/dashboard";
+		return "redirect:/company/dashboard";
 	}
 	
 	@RequestMapping("/company/list_available_positions")
@@ -126,8 +126,8 @@ public class CompanyController {
 	// D:  this will probably set you on the path of evaluating traineeship
 	// authentications in service doesn't make sense to me, so maybe by passing position_id
 	// we can access that mapper in company service
-	@RequestMapping("/company/evaluate_assigned_traineeship")
-	public String evaluateAssignedTraineeship(@ModelAttribute("position_id") Integer positionId, Model model) {
+	@RequestMapping("/company/evaluate_assigned_traineeship/{position_id}")
+	public String evaluateAssignedTraineeship(@PathVariable("position_id") Integer positionId, Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String username = authentication.getName();
 		
@@ -145,8 +145,8 @@ public class CompanyController {
 	}
 	
 	// D: now, with an evaluation all set, get to saving
-	@RequestMapping("/company/save_evaluation")
-	public String saveEvaluation(@ModelAttribute("position_id") Integer positionId,
+	@RequestMapping("/company/save_evaluation/{position_id}")
+	public String saveEvaluation(@PathVariable("position_id") Integer positionId,
 								@ModelAttribute("evaluation") Evaluation evaluation, Model model) {
 		try {
 			companyService.saveEvaluation(positionId, evaluation);
@@ -159,8 +159,8 @@ public class CompanyController {
 	}
 	
 	// get to remake deletion function
-	@RequestMapping("/company/delete_position")
-	public String deletePosition(@ModelAttribute("position_id") Integer positionId, Model model) {
+	@RequestMapping("/company/delete_position/{position_id}")
+	public String deletePosition(@PathVariable("position_id") Integer positionId, Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String username = authentication.getName();
 		try {
