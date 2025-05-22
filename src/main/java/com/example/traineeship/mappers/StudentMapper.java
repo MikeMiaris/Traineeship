@@ -7,5 +7,4 @@ import com.example.traineeship.domainmodel.Student;
 
 
 public interface StudentMapper extends JpaRepository<Student, String> {
-	Student findByUsername(String username);
 }
