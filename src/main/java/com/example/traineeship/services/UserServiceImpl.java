@@ -1,44 +1,51 @@
 package com.example.traineeship.services;
 
-import java.util.Collections;
-
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.traineeship.domainmodel.User;
 import com.example.traineeship.mappers.UserMapper;
 
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService, UserDetailsService {
 	@Autowired 
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired 
 	UserMapper userDAO;
 	
-
+	@Autowired
+	public UserServiceImpl(UserMapper userMapper) {
+		this.userDAO = userMapper;
+	}
+	
+	@Override
 	public void saveUser(User user) {
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         userDAO.save(user);
 	}
 	
-	
+	@Override
 	public boolean isUserPresent(User user) {
-        return userDAO.findById(user.getUsername()).isPresent();
+        return userDAO.findByUsername(user.getUsername()).isPresent();
 	}
 	
 	//Copied this from his github, he also had an exception catcher, i skipped that. it's the same as findById so idk
-	
-	 public UserDetails loadUserByUsername(String username) {
-		return userDAO.findById(username).orElse(null);
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		 return userDAO.findByUsername(username).orElseThrow(
+	                ()-> new UsernameNotFoundException(
+	                        String.format("USER_NOT_FOUND", username)
+	                ));
 	}
 	
+	@Override
 	public User findById(String username) {
-        return userDAO.findById(username).orElse(null);
+        return userDAO.findByUsername(username)
+        		.orElseThrow(() -> new UsernameNotFoundException(String.format("USER_NOT_FOUND", username)));
 	}
 	
 	
