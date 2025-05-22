@@ -14,7 +14,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails{
-    
+
 	@Id    
     @Column(name = "username", unique =true)
 	@NotBlank(message = "Username can not be empty.")
