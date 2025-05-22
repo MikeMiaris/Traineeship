@@ -7,7 +7,9 @@ import com.example.traineeship.factories.SupervisorAssignmentFactory;
 import com.example.traineeship.factories.SupervisorAssignmentStrategy;
 import com.example.traineeship.mappers.StudentMapper;
 import com.example.traineeship.mappers.TraineeshipPositionMapper;
+import com.example.traineeship.domainmodel.Company;
 import com.example.traineeship.domainmodel.Evaluation;
+import com.example.traineeship.domainmodel.Professor;
 import com.example.traineeship.domainmodel.Student;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
 
@@ -53,6 +55,25 @@ public class CommitteeServiceImpl {
 	void completeAssignedTraineeships(Integer positionid) {
 		TraineeshipPosition position = positionMapper.findById(positionid).orElseThrow(()-> new IllegalArgumentException("No such position found: " + positionid));
 		List<Evaluation> evaluations = position.getEvaluations();
+		int avg = 0;
+		int total = 0;
+		for(int i = 0; i < evaluations.size(); i++) {
+			total += evaluations.get(i).getMotivation();
+			total += evaluations.get(i).getEffectiveness();
+			total += evaluations.get(i).getEfficiency();
+			
+			total = total/3;
+			
+			avg = (avg + total)/2; 
+		}
+		
+		boolean pass = false;
+		
+		if(avg >= 3) {
+			pass = true;
+		}
+		
+		position.setPassFailGrade(pass);
 		
 		
 	} 
