@@ -1,7 +1,6 @@
 package com.example.traineeship.mappers;
 
-import java.util.*;
-
+import org.hibernate.query.spi.Limit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import com.example.traineeship.domainmodel.Professor;
 
 public interface ProfessorMapper extends JpaRepository<Professor,String>{
-	@Query("SELECT p FROM Professor p WHERE p.interests LIKE %:interest% LIMIT 1")
+	@Query("SELECT p FROM Professor p WHERE p.interests LIKE %:interest% ")
 	Professor findByInterest(@Param("interest") String interest);
 	
 	@Query("""
@@ -23,7 +22,7 @@ public interface ProfessorMapper extends JpaRepository<Professor,String>{
 	            ) ASC
 	        LIMIT 1
 	    """)
-	    Professor findByLoad();
+	    Professor findByLoad(Limit limit);
 	
 	
 }
