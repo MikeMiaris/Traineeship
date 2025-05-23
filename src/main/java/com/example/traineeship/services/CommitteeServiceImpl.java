@@ -28,7 +28,7 @@ public class CommitteeServiceImpl {
 		
 	}
 	List<Student> retrieveTraineeShipApplications(){
-		
+		return studentMapper.LookingForTrain();
 		
 	}
 	void assignPosition(Integer positionid, String studentUsername){
