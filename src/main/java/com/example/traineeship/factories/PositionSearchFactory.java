@@ -11,11 +11,15 @@ public abstract class PositionSearchFactory {
     @Autowired
     private SearchBasedOnInterests searchBasedOnInterests;
     
+    @Autowired
+    private CompositeSearch compositeSearch;
+    
 
     public PositionSearchStrategy create(String strategy) {
         return switch (strategy.toLowerCase()) {
             case "location" -> searchBasedOnLocation;
             case "interests" -> searchBasedOnInterests;
+            case "composite" -> compositeSearch;
             default -> throw new IllegalArgumentException("Invalid strategy: " + strategy);
         };
     }
