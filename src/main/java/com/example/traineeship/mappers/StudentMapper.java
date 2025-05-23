@@ -12,4 +12,5 @@ import com.example.traineeship.domainmodel.Student;
 public interface StudentMapper extends JpaRepository<Student, String> {
 	@Query("SELECT p FROM Student p WHERE p.lookingForTraineeship = true")
 	List<Student> LookingForTrain();
+
 }
