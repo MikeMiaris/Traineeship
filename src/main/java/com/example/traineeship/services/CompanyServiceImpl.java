@@ -1,5 +1,6 @@
 package com.example.traineeship.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,18 +38,19 @@ public class CompanyServiceImpl implements CompanyService {
                     new IllegalArgumentException("Company not found: " + username));
 	}
 	
-	// D: Function that gets non occupied positions
 	@Override
 	public List<TraineeshipPosition> retrieveAvailablePositions(String username) {
-		Company company =  companyMapper.findById(username)
-                .orElseThrow(() ->
-                    new IllegalArgumentException("Company not found: " + username));
-		
-		// D: throw some exception if positions are not found -- TODO
-		
-		return company.getPositions().stream()
-				.filter(position -> !position.isAssigned())
-				.collect(Collectors.toList());
+	    Company company = companyMapper.findById(username)
+	            .orElseThrow(() ->
+	                new IllegalArgumentException("Company not found: " + username));
+
+	    // Get today's date
+	    LocalDate today = LocalDate.now();
+
+	    return company.getPositions().stream()
+	            .filter(position -> !position.isAssigned() && 
+	                                (position.getToDate() == null || !position.getToDate().isBefore(today)))
+	            .collect(Collectors.toList());
 	}
 	
 	
@@ -68,8 +70,12 @@ public class CompanyServiceImpl implements CompanyService {
                 .orElseThrow(() ->
                     new IllegalArgumentException("Company not found: " + username));
 		
+		// Get today's date
+	    LocalDate today = LocalDate.now();
+		
 		return company.getPositions().stream()
-				.filter(position -> position.isAssigned())
+				.filter(position -> position.isAssigned() && 
+                        (position.getToDate() == null || !position.getToDate().isBefore(today)))
 				.collect(Collectors.toList());
 	}
 	
@@ -112,5 +118,20 @@ public class CompanyServiceImpl implements CompanyService {
                     new IllegalArgumentException("Company not found: " + username));
 		
 		company.removePosition(positionId);
+	}
+	
+	// another added function to retrieve expired positions and wipe them
+	@Override
+	public List<TraineeshipPosition> retrieveExpiredPositions(String username) {
+		Company company = companyMapper.findById(username)
+	            .orElseThrow(() ->
+	                new IllegalArgumentException("Company not found: " + username));
+
+	    // Get today's date
+	    LocalDate today = LocalDate.now();
+
+	    return company.getPositions().stream()
+	            .filter(position -> (position.getToDate() == null || position.getToDate().isBefore(today)))
+	            .collect(Collectors.toList());
 	}
 }
