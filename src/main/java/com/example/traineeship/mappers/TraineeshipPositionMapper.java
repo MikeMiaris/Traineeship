@@ -21,7 +21,7 @@ public interface TraineeshipPositionMapper extends JpaRepository<TraineeshipPosi
 	List<TraineeshipPosition> findByLocation(@Param("location") String location);
 	
 	
-	@Query("Select p FROM TraineeshipPosition p WHERE p.topics = :topic")
+	@Query("SELECT p FROM TraineeshipPosition p WHERE CONCAT(',', p.topics, ',') LIKE %,:topic,%")
 	List<TraineeshipPosition> findBytopic(@Param("topic") String topic);
 	
 	@Query("Select p FROM TraineeshipPosition p WHERE p.isAssigned = true AND CURRENT_TIMESTAMP < p.toDate")
