@@ -123,6 +123,21 @@ public class CompanyController {
 		
 	}
 	
+	// D: added function to show expired positions
+	@RequestMapping("/company/list_expired_positions")
+	public String listExpiredPositions(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		try {
+			List <TraineeshipPosition> positions = companyService.retrieveExpiredPositions(username);
+			model.addAttribute("positions", positions);
+			return "company/expired_positions";
+		}catch(Exception e){
+			model.addAttribute("error", e.getMessage());
+			return "redirect:/company/dashboard";
+		}
+	}
+	
 	// D:  this will probably set you on the path of evaluating traineeship
 	// authentications in service doesn't make sense to me, so maybe by passing position_id
 	// we can access that mapper in company service
@@ -158,7 +173,6 @@ public class CompanyController {
 		
 	}
 	
-	// get to remake deletion function
 	@RequestMapping("/company/delete_position/{position_id}")
 	public String deletePosition(@PathVariable("position_id") Integer positionId, Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
