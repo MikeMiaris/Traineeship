@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .formLogin(login -> login
-                .loginPage("/login") // Optional: default login page
+                //.loginPage("/login") // Optional: default login page
                 .defaultSuccessUrl("/redirect-by-role", true)
                 .failureHandler(customFailureHandler())
                 .permitAll()
