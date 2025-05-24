@@ -10,21 +10,18 @@ import org.springframework.data.repository.query.Param;
 import com.example.traineeship.domainmodel.Professor;
 
 public interface ProfessorMapper extends JpaRepository<Professor,String>{
-	@Query("SELECT p FROM TraineeshipPosition p WHERE CONCAT(',', p.topics, ',') LIKE CONCAT('%', :topic, '%') ")
+	@Query("SELECT p FROM Professor p WHERE CONCAT(',', p.interests, ',') LIKE CONCAT('%', :interest, '%') ")
 	List<Professor> findByInterest(@Param("interest") String interest);
 	
+	
 	@Query("""
-	        SELECT p FROM Professor p
-	        ORDER BY 
-	            SIZE(
-	                FUNCTION('STRING_TO_ARRAY', 
-	                    FUNCTION('COALESCE', p.supervisedPositions, ''), 
-	                    ','
-	                )
-	            ) ASC
-	        LIMIT 1
-	    """)
-	    Professor findByLoad(Limit limit);
+		    SELECT p FROM Professor p 
+		    WHERE SIZE(p.supervisedPositions) = (
+		        SELECT MIN(SIZE(p2.supervisedPositions)) 
+		        FROM Professor p2
+		    )
+		""")
+	    Professor findByLoad();
 	
 	
 }
