@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import com.example.traineeship.domainmodel.Professor;
 
 public interface ProfessorMapper extends JpaRepository<Professor,String>{
-	@Query("SELECT p FROM Professor p WHERE p.interests LIKE %:interest% ")
+	@Query("SELECT p FROM TraineeshipPosition p WHERE CONCAT(',', p.topics, ',') LIKE CONCAT('%', :topic, '%') ")
 	List<Professor> findByInterest(@Param("interest") String interest);
 	
 	@Query("""

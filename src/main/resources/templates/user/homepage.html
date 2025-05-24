@@ -1,0 +1,10 @@
+<body>
+    <h1>Welcome to the Traineeship App</h1>
+    
+    <div th:if="${errorMessage}">
+        <p style="color: red;" th:text="${errorMessage}"></p>
+    </div>
+
+    <a href="/login">Login</a> |
+    <a href="/user/signup">Sign up</a>
+</body>

@@ -30,6 +30,7 @@ public class CommitteeServiceImpl {
 	List<Student> retrieveTraineeShipApplications(){
 		return studentMapper.LookingForTrain();
 		
+		
 	}
 	void assignPosition(Integer positionid, String studentUsername){
 		TraineeshipPosition position = positionMapper.findById(positionid).orElseThrow(()-> new IllegalArgumentException("No such position found: " + positionid));
