@@ -38,3 +38,4 @@ target/classes/META-INF/MANIFEST.MF
 target/classes/META-INF/MANIFEST.MF
 >>>>>>> 1a54f52599a12262e9fbc2e1fc089174ea2cbd04
 target/classes/META-INF/maven/com.example/traineeship/pom.properties
+src/main/resources/application.properties
