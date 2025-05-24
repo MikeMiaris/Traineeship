@@ -2,20 +2,17 @@ package com.example.traineeship.services;
 
 import com.example.traineeship.domainmodel.Student;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
-import com.example.traineeship.mappers.ProfessorMapper;
 import com.example.traineeship.mappers.StudentMapper;
 import com.example.traineeship.mappers.TraineeshipPositionMapper;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class StudentServiceImplTest {
+public class StudentServiceImplTest {
 
     @Mock
     private StudentMapper studentMapper;
