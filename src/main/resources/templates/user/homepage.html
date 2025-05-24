@@ -1,10 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+	<title>Welcome to the Traineeship App</title>
+</head>
+
+
 <body>
-    <h1>Welcome to the Traineeship App</h1>
-    
+<div class="container my-5">
+
     <div th:if="${errorMessage}">
         <p style="color: red;" th:text="${errorMessage}"></p>
     </div>
+	
+	<hr class="my-4">
 
-    <a href="/login">Login</a> |
-    <a href="/user/signup">Sign up</a>
+	<p>
+    <a th:href="@{/login}" class="btn btn-primary btn-sm mb-2">Login</a>
+    <a th:href="@{/user/signup}"class="btn btn-primary btn-sm mb-2">Sign up</a>
+	</p>
+	
+</div>
 </body>
+</html>
