@@ -14,7 +14,7 @@ import com.example.traineeship.mappers.TraineeshipPositionMapper;
 @Service
 public class SearchBasedOnLocation implements PositionSearchStrategy{
 	
-	//private final CompanyMapper companyMapper;
+
 	private  final StudentMapper studentMapper;
 	private final TraineeshipPositionMapper positionMapper;
 	

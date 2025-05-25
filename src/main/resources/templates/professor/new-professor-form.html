@@ -19,23 +19,26 @@
                 </div>
                 <div class="card-body">
                     <form th:action="@{/professor/save-profile}" th:object="${professor}" method="post">
-    <input type="hidden" th:field="*{username}" />
-    
-    <!-- Other professor fields -->
-    <div class="form-group">
-        <label for="professorName">Full Name</label>
-        <input type="text" class="form-control" id="professorName" 
-               th:field="*{professorName}" required>
-    </div>
-    
-    <div class="form-group">
-        <label for="interests">Research Interests</label>
-        <textarea class="form-control" id="interests" 
-                  th:field="*{interests}" rows="3"></textarea>
-    </div>
-    
-    <button type="submit" class="btn btn-primary">Save Profile</button>
-</form>
+                        <input type="hidden" th:field="*{username}" />
+                        
+                        <div class="form-group">
+                            <label for="professorName">Full Name</label>
+                            <input type="text" class="form-control" id="professorName" 
+                                   th:field="*{professorName}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="interests">Research Interests (comma-separated)</label>
+                            <input type="text" class="form-control" id="interests" 
+                                   th:field="*{interests}"
+                                   placeholder="e.g. Artificial Intelligence,Data Mining,Cybersecurity">
+                            <small class="form-text text-muted">Please separate multiple interests with commas</small>
+                        </div>
+                        
+                        <div class="form-group text-right">
+                            <button type="submit" class="btn btn-primary">Save Profile</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

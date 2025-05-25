@@ -17,6 +17,14 @@ public class CompositeSearch implements PositionSearchStrategy{
 	CompanyMapper companyMapper;
 	StudentMapper studentMapper;
 	TraineeshipPositionMapper PositionMapper;
+	SearchBasedOnInterests interests;
+	
+	public CompositeSearch(CompanyMapper companymapper, StudentMapper studentmapper, TraineeshipPositionMapper positionmapper, SearchBasedOnInterests interests) {
+		this.companyMapper = companymapper;
+		this.studentMapper = studentmapper;
+		this.PositionMapper = positionmapper;
+		this.interests = new SearchBasedOnInterests(studentmapper,positionmapper);
+	}
 	
 	public List<TraineeshipPosition> search(String applicantUsername){
 		Student student = studentMapper.findById(applicantUsername).orElseThrow(()-> new IllegalArgumentException("No such applicant"));;
@@ -29,7 +37,7 @@ public class CompositeSearch implements PositionSearchStrategy{
             student.getPreferredLocation() 
         );
         
-        List<TraineeshipPosition> positionsInt = PositionMapper.findBytopic(
+        List<TraineeshipPosition> positionsInt = interests.search(
                 student.getInterests() 
             );
         

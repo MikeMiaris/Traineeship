@@ -75,7 +75,7 @@ public class Professor {
     
     public void addSupervisedPosition(TraineeshipPosition position) {
     	supervisedPositions.add(position);
-    	position.setSupervisor(this);
+  
     }
     
 }
