@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Evaluate Traineeship</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">
+                <i class="fas fa-clipboard-check mr-2"></i>Evaluate Traineeship #[[${positionId}]]
+            </h3>
+        </div>
+        <div class="card-body">
+            <!-- Error message display -->
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
+            </div>
+            
+            <form th:action="@{/company/evaluate/{id}(id=${positionId})}"
+                  th:object="${evaluation}"
+                  method="post">
+                
+                <div class="form-group">
+                    <label for="motivation">Motivation</label>
+                    <select class="form-control" id="motivation" th:field="*{motivation}" required>
+                        <option value="" disabled selected>Select rating (1-5)</option>
+                        <option value="1">1 - Poor</option>
+                        <option value="2">2 - Below Average</option>
+                        <option value="3">3 - Average</option>
+                        <option value="4">4 - Good</option>
+                        <option value="5">5 - Excellent</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="efficiency">Efficiency</label>
+                    <select class="form-control" id="efficiency" th:field="*{efficiency}" required>
+                        <option value="" disabled selected>Select rating (1-5)</option>
+                        <option value="1">1 - Poor</option>
+                        <option value="2">2 - Below Average</option>
+                        <option value="3">3 - Average</option>
+                        <option value="4">4 - Good</option>
+                        <option value="5">5 - Excellent</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="effectiveness">Effectiveness</label>
+                    <select class="form-control" id="effectiveness" th:field="*{effectiveness}" required>
+                        <option value="" disabled selected>Select rating (1-5)</option>
+                        <option value="1">1 - Poor</option>
+                        <option value="2">2 - Below Average</option>
+                        <option value="3">3 - Average</option>
+                        <option value="4">4 - Good</option>
+                        <option value="5">5 - Excellent</option>
+                    </select>
+                </div>
+                
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary mr-2">
+                        <i class="fas fa-check"></i> Submit Evaluation
+                    </button>
+                    <a th:href="@{/professor/traineeships}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Traineeships
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
