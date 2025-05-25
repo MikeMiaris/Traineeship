@@ -55,7 +55,7 @@ public class WebSecurityConfig {
         http
             .authenticationProvider(authenticationProvider())  
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/user/**").permitAll()
+                .requestMatchers("/**", "/user/**").permitAll()
                 .requestMatchers("/student/**").hasRole("STUDENT")
                 .requestMatchers("/professor/**").hasRole("PROFESSOR")
                 .requestMatchers("/company/**").hasRole("COMPANY")
