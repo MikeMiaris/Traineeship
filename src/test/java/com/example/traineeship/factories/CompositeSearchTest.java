@@ -1,5 +1,6 @@
 package com.example.traineeship.factories;
 
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,19 +30,21 @@ import jakarta.transaction.Transactional;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
-public class SearchBasedOnLocationTest {
+public class CompositeSearchTest {
 	@Autowired
 	StudentMapper studentMapper;
 	@Autowired
     TraineeshipPositionMapper positionMapper;
 	@Autowired
 	CompanyMapper companyMapper;
+	
+	SearchBasedOnInterests interests;
     
-    private SearchBasedOnLocation strategy;
+    private CompositeSearch strategy;
 
     @BeforeEach
     void setUp() {
-        strategy = new SearchBasedOnLocation(studentMapper, positionMapper);
+        strategy = new CompositeSearch(companyMapper,studentMapper, positionMapper, interests);
     }
 
     @Test
@@ -51,26 +54,36 @@ public class SearchBasedOnLocationTest {
         Company comp2 = new Company("comp2","shitcorp","London");
         
         
-        TraineeshipPosition pos1 = new TraineeshipPosition("pos1", "None", LocalDate.now(),LocalDate.now(),"AI","AI");
-        TraineeshipPosition pos2 = new TraineeshipPosition("pos2", "None", LocalDate.now(),LocalDate.now(),"AI","AI");
+        TraineeshipPosition pos1 = new TraineeshipPosition("pos1", "None", LocalDate.now(),LocalDate.now(),"Soda,AI","AI");
+        TraineeshipPosition pos2 = new TraineeshipPosition("pos2", "None", LocalDate.now(),LocalDate.now(),"Soda","AI");
         TraineeshipPosition pos3 = new TraineeshipPosition("pos3", "None", LocalDate.now(),LocalDate.now(),"AI","AI");
+        TraineeshipPosition pos4 = new TraineeshipPosition("pos4", "None", LocalDate.now(),LocalDate.now(),"Soda,AI,doodoo","AI");
+        TraineeshipPosition pos5 = new TraineeshipPosition("pos5", "None", LocalDate.now(),LocalDate.now(),"Soda,AI,doodoo","AI");
+        TraineeshipPosition pos6 = new TraineeshipPosition("pos6", "None", LocalDate.now(),LocalDate.now(),"Soda,AI","AI");
         
         pos1.setCompany(comp);
         pos2.setCompany(comp);
         pos3.setCompany(comp2);
+        pos4.setCompany(comp2);
+        pos5.setCompany(comp);
+        pos6.setCompany(comp2);
 
         
         studentMapper.save(user1);
         positionMapper.save(pos1);
         positionMapper.save(pos2);
+        positionMapper.save(pos3);
+        positionMapper.save(pos4);
+        positionMapper.save(pos5);
+        positionMapper.save(pos6);
 
  
 
         List<TraineeshipPosition> result = strategy.search(user1.getUsername());
 
 
-        assertEquals(2, result.size());
-        assertThat(result).hasSize(2).extracting(TraineeshipPosition::getTitle).containsExactly("pos1","pos2");
+        assertEquals(3, result.size());
+        assertThat(result).hasSize(3).extracting(TraineeshipPosition::getTitle).containsExactly("pos1","pos2","pos5");
         
         
     }

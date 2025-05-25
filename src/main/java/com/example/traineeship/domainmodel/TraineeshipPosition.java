@@ -44,7 +44,8 @@ public class TraineeshipPosition {
 	@JoinColumn(name = "student")
 	private Student student;
 	
-	@ManyToOne
+	@ManyToOne(	cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY)
 	@JoinColumn(name = "professor")
 	private Professor supervisor;
 	

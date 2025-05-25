@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.traineeship.domainmodel.Student;
@@ -17,8 +18,16 @@ import com.example.traineeship.mappers.TraineeshipPositionMapper;
 
 @Service
 public class SearchBasedOnInterests implements PositionSearchStrategy {
-	TraineeshipPositionMapper PositionMapper;
+	TraineeshipPositionMapper positionMapper;
 	StudentMapper studentMapper;
+	
+	@Autowired
+    public SearchBasedOnInterests( StudentMapper studentMapper, TraineeshipPositionMapper positionMapper
+    ) { 
+	 //this.companyMapper = companyMapper;
+     this.studentMapper = studentMapper;
+     this.positionMapper = positionMapper;
+    }
 	
 	public List<TraineeshipPosition> search(String applicantUsername){
 		Student student = studentMapper.findById(applicantUsername).orElseThrow(()-> new IllegalArgumentException("No such applicant"));
@@ -27,7 +36,7 @@ public class SearchBasedOnInterests implements PositionSearchStrategy {
         }
 
 
-        List<TraineeshipPosition> positions = PositionMapper.findBytopic(
+        List<TraineeshipPosition> positions = positionMapper.findBytopic(
             student.getInterests() 
         );
         
