@@ -2,7 +2,7 @@ package com.example.traineeship.mappers;
 
 import com.example.traineeship.domainmodel.Professor;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
-
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +10,13 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Transactional
 public class ProfessorMapperTest {
 
     @Autowired
@@ -76,4 +76,6 @@ public class ProfessorMapperTest {
         assertThat(result.getUsername()).isEqualTo("user1");
         assertThat(result.getSupervisedPositions()).hasSize(1);
     }
+    
+    
 }
