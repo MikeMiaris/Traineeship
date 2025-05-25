@@ -37,7 +37,7 @@ public class ProfessorController {
         	return "redirect:/professor/dashboard";
 
         }
-        return "professor/profile-form";
+        return "professor/profile-view";
     }
 
     @PostMapping("/save-profile")
