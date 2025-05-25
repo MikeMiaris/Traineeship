@@ -42,9 +42,12 @@ public class ProfessorController {
 
     @PostMapping("/save-profile")
     public String saveProfile(@ModelAttribute("professor") Professor professor, Model model) {
-    	professorService.saveProfile(professor); 
-    	return "redirect:/professor/dashboard";
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        professor.setUsername(username); // <== Force set the correct username
+        professorService.saveProfile(professor);
+        return "redirect:/professor/dashboard";
     }
+
 
     // GET /professor/traineeships — US14
     @GetMapping("/traineeships")
@@ -90,4 +93,12 @@ public class ProfessorController {
 		}
     }
     
+    @GetMapping("/new-professor-form")
+    public String showProfessorForm(Model model) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Professor professor = new Professor();
+        professor.setUsername(username); // Set the username from logged in user
+        model.addAttribute("professor", professor);
+        return "professor/new-professor-form";
+    }
 }

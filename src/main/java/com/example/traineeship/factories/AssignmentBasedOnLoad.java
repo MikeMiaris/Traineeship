@@ -9,6 +9,11 @@ public class AssignmentBasedOnLoad implements SupervisorAssignmentStrategy {
 	TraineeshipPositionMapper positionsMapper;
 	ProfessorMapper professorMapper;
 	
+	public AssignmentBasedOnLoad(TraineeshipPositionMapper posmapper, ProfessorMapper profmapper) {
+		this.positionsMapper = posmapper;
+		this.professorMapper = profmapper;
+	}
+	
 	public void assign(Integer positionid) {
 		TraineeshipPosition position = positionsMapper.findById(positionid).orElseThrow(()-> new IllegalArgumentException("Position not found:" + positionid));
 		Professor professor = professorMapper.findByLoad(); ////CHECK CHECK

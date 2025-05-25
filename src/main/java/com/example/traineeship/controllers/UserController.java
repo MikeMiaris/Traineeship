@@ -1,28 +1,26 @@
 package com.example.traineeship.controllers;
 
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.traineeship.domainmodel.User;
-import com.example.traineeship.services.UserService;
+import com.example.traineeship.services.UserServiceImpl;
 
 @Controller
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
     
     // signin form
-    @RequestMapping("/signin")
+    @RequestMapping("/login")
     public String signinForm(Model model) {
     	return "user/signin";
     }
@@ -44,13 +42,16 @@ public class UserController {
         // Save user first
         userService.saveUser(user);
         
-        // Auto-login
+        UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
+
         Authentication authentication = new UsernamePasswordAuthenticationToken(
-            user.getUsername(),
-            user.getPassword(),
-            Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+            userDetails, 
+            userDetails.getPassword(),
+            userDetails.getAuthorities()
         );
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
         
         // Redirect based on role
         switch (user.getRole()) {
@@ -62,32 +63,6 @@ public class UserController {
                 return "redirect:/professor/new-professor-form";
             case COMMITTEE:
                 return "redirect:/committee/new-committee-form";
-            default:
-                return "redirect:/?error=true";
-        }
-    }
-    
-    
-    
-    // Role-based redirection after login
-    @RequestMapping("/redirect-by-role")
-    public String redirectBasedOnRole(Authentication authentication) {
-        if (authentication == null || authentication.getAuthorities().isEmpty()) {
-            return "redirect:/?error=true";
-        }
-        
-        
-        String role = authentication.getAuthorities().iterator().next().getAuthority();
-
-        switch (role) {
-            case "ROLE_STUDENT":
-                return "redirect:/student/dashboard";
-            case "ROLE_COMPANY":
-                return "redirect:/company/dashboard";
-            case "ROLE_PROFESSOR":
-                return "redirect:/professor/dashboard";
-            case "ROLE_COMMITTEE":
-                return "redirect:/committee/dashboard";
             default:
                 return "redirect:/?error=true";
         }

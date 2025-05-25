@@ -17,7 +17,6 @@ public interface TraineeshipPositionMapper extends JpaRepository<TraineeshipPosi
 	
 	
 	@Query("Select p FROM TraineeshipPosition p WHERE p.company.companyLocation = :location")
-	
 	List<TraineeshipPosition> findByLocation(@Param("location") String location);
 	
 	

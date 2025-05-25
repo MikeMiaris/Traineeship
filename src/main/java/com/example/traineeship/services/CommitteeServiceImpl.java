@@ -1,6 +1,9 @@
 package com.example.traineeship.services;
 
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.example.traineeship.factories.PositionSearchFactory;
 import com.example.traineeship.factories.PositionSearchStrategy;
 import com.example.traineeship.factories.SupervisorAssignmentFactory;
@@ -14,17 +17,22 @@ import com.example.traineeship.domainmodel.Student;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
 
 public class CommitteeServiceImpl {
-	PositionSearchFactory positionsSearchFactory;
+	PositionSearchFactory positionSearchFactory;
 	SupervisorAssignmentFactory supervisorAssignmentFactory;
 	StudentMapper studentMapper;
 	TraineeshipPositionMapper positionMapper;
 	
+	@Autowired
+	public CommitteeServiceImpl(PositionSearchFactory pfactory, SupervisorAssignmentFactory afactory,StudentMapper SMapper, TraineeshipPositionMapper pmapper) {
+		this.positionSearchFactory = pfactory;
+		this.supervisorAssignmentFactory = afactory;
+		this.studentMapper = SMapper;
+		this.positionMapper = pmapper;
+	}
 	
 	List<TraineeshipPosition> retrievePositionsForApplicant(String applicantUsername, String Strategy){
-		PositionSearchStrategy searchtype = positionsSearchFactory.create(Strategy);
+		PositionSearchStrategy searchtype = positionSearchFactory.create(Strategy);
 		return searchtype.search(applicantUsername);
-		
-		
 		
 	}
 	List<Student> retrieveTraineeShipApplications(){
@@ -43,7 +51,6 @@ public class CommitteeServiceImpl {
 		
 	}
 	void assignSupervisor(Integer positionid, String strategy){
-		TraineeshipPosition position = positionMapper.findById(positionid).orElseThrow(()-> new IllegalArgumentException("No such position found: " + positionid));
 		SupervisorAssignmentStrategy assigntype = supervisorAssignmentFactory.create(strategy);
 		assigntype.assign(positionid);
 		
@@ -56,8 +63,8 @@ public class CommitteeServiceImpl {
 	void completeAssignedTraineeships(Integer positionid) {
 		TraineeshipPosition position = positionMapper.findById(positionid).orElseThrow(()-> new IllegalArgumentException("No such position found: " + positionid));
 		List<Evaluation> evaluations = position.getEvaluations();
-		int avg = 0;
-		int total = 0;
+		double avg = 0;
+		double total = 0;
 		for(int i = 0; i < evaluations.size(); i++) {
 			total += evaluations.get(i).getMotivation();
 			total += evaluations.get(i).getEffectiveness();

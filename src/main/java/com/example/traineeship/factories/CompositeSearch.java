@@ -4,12 +4,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import com.example.traineeship.domainmodel.Student;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
 import com.example.traineeship.mappers.CompanyMapper;
 import com.example.traineeship.mappers.StudentMapper;
 import com.example.traineeship.mappers.TraineeshipPositionMapper;
 
+@Service
 public class CompositeSearch implements PositionSearchStrategy{
 	CompanyMapper companyMapper;
 	StudentMapper studentMapper;
