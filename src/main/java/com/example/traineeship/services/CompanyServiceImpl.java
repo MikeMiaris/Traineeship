@@ -59,6 +59,8 @@ public class CompanyServiceImpl implements CompanyService {
 		Company company =  companyMapper.findById(username)
                 .orElseThrow(() ->
                     new IllegalArgumentException("Company not found: " + username));
+		// also add company as field of position
+		position.setCompany(company);
 		company.announcePosition(position);
 		// D: after the above, need to update mapper
 		saveProfile(company);
@@ -118,6 +120,14 @@ public class CompanyServiceImpl implements CompanyService {
                     new IllegalArgumentException("Company not found: " + username));
 		
 		company.removePosition(positionId);
+		
+		TraineeshipPosition position =  traineeshipPositionMapper.findById(positionId)
+                .orElseThrow(() ->
+                    new IllegalArgumentException("Position doesn't exist: " + positionId));
+		
+		traineeshipPositionMapper.delete(position);
+		
+		companyMapper.save(company);
 	}
 	
 	// another added function to retrieve expired positions and wipe them
