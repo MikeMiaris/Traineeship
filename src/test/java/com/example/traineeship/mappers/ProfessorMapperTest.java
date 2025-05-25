@@ -22,7 +22,8 @@ public class ProfessorMapperTest {
     @Autowired
     private ProfessorMapper professorMapper;
     
-    @Autowired TraineeshipPositionMapper positionMapper;
+    @Autowired 
+    TraineeshipPositionMapper positionMapper;
 
     @Test
     @DisplayName("Test saving and retrieving a professor by interest")
