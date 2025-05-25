@@ -66,8 +66,6 @@ public class UserController {
             case PROFESSOR:
             	Professor professor = new Professor();
                 professor.setUsername(user.getUsername());
-                // print check
-                System.out.println("professor name in user cont: "+ professor.getUsername());
                 
                 // change to keep professor through redirect
                 red.addFlashAttribute("professor", professor);
