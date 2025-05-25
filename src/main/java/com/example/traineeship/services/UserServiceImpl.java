@@ -21,6 +21,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Autowired 
 	private UserMapper userDAO;
 	
+
 	
 	@Override
 	public void saveUser(User user) {
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		 return userDAO.findByUsername(username).orElseThrow(
 	                ()-> new UsernameNotFoundException(
 	                        String.format("USER_NOT_FOUND", username)
-	                ));
+	        ));
 	}
 	
 	@Override

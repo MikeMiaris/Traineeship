@@ -27,18 +27,7 @@ public class StudentModelTest {
         tp.setId(123);
         tp.setTitle("Title");
         tp.setFromDate(now);
-        // build student
-        Student s = new Student(
-            "user42",
-            "Alice",
-            "12345",
-            8.5,
-            "Athens",
-            "Java,SQL",
-            "Spring,Git",
-            true,
-            tp
-        );
+        Student s = new Student("user42","Alice","12345",8.5,"Athens","Java,SQL","Spring,Git", true,tp);
 
         assertEquals("user42", s.getUsername());
         assertEquals("Alice", s.getStudentName());

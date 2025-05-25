@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.traineeship.domainmodel.Professor;
 import com.example.traineeship.domainmodel.User;
 import com.example.traineeship.services.UserServiceImpl;
 
@@ -33,7 +35,7 @@ public class UserController {
     }
 
     @RequestMapping("/user/save-user")
-    public String saveUser(@ModelAttribute("user") User user, Model model) {
+    public String saveUser(@ModelAttribute("user") User user, Model model, RedirectAttributes red) {
         if (userService.isUserPresent(user)) {
             model.addAttribute("successMessage", "User already registered!");
             return "redirect:/?error=true";
@@ -49,9 +51,9 @@ public class UserController {
             userDetails.getPassword(),
             userDetails.getAuthorities()
         );
-
+        
+        // Set authentication in SecurityContext
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         
         // Redirect based on role
         switch (user.getRole()) {
@@ -59,7 +61,14 @@ public class UserController {
                 return "redirect:/student/new-student-form";
             case COMPANY:
                 return "redirect:/company/new-company-form";
+            
+            // finally changed to create the professor in here
             case PROFESSOR:
+            	Professor professor = new Professor();
+                professor.setUsername(user.getUsername());
+                
+                // change to keep professor through redirect
+                red.addFlashAttribute("professor", professor);
                 return "redirect:/professor/new-professor-form";
             case COMMITTEE:
                 return "redirect:/committee/new-committee-form";
