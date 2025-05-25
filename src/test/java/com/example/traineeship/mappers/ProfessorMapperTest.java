@@ -18,13 +18,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
 public class ProfessorMapperTest {
-
+	
     @Autowired
     private ProfessorMapper professorMapper;
     
     @Autowired 
     TraineeshipPositionMapper positionMapper;
-
+    
     @Test
     @DisplayName("Test saving and retrieving a professor by interest")
     public void testFindByInterest() {
@@ -36,7 +36,7 @@ public class ProfessorMapperTest {
         professorMapper.save(p2);
         
         List<Professor> result = professorMapper.findByInterest("AI");
-
+        
         assertThat(result).isNotEmpty();
         assertThat(result).extracting(Professor::getUsername).contains("user1");
     }

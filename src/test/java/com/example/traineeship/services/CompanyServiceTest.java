@@ -72,7 +72,7 @@ public class CompanyServiceTest {
         assigned.setAssigned(true);
         TraineeshipPosition expired = new TraineeshipPosition("Legacy", "Desc", LocalDate.now(), LocalDate.now().minusDays(2), "Legacy", "Req");
         expired.setAssigned(true);
-
+        
         company.setPositions(Arrays.asList(assigned, expired));
         when(companyMapper.findById("gamma")).thenReturn(Optional.of(company));
         List<TraineeshipPosition> result = companyService.retrieveAssignedPositions("gamma");
@@ -106,7 +106,7 @@ public class CompanyServiceTest {
     void testSaveEvaluation() {
         TraineeshipPosition position = mock(TraineeshipPosition.class);
         Evaluation evaluation = new Evaluation();
-
+        
         when(positionMapper.findById(1)).thenReturn(Optional.of(position));
         companyService.saveEvaluation(1, evaluation);
         verify(position).addEvaluation(evaluation);

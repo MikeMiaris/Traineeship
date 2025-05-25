@@ -194,7 +194,7 @@ public class CommitteeServiceTest {
     
     @Test
     void testlistAssignedTraineeships() {
-        // Given
+    	
         TraineeshipPosition pos1 = new TraineeshipPosition();
         pos1.setId(1);
         pos1.setAssigned(true);
@@ -207,11 +207,10 @@ public class CommitteeServiceTest {
         
         when(positionMapper.getallAssigned())
             .thenReturn(mockPositions);
-
-
+        
+        
         List<TraineeshipPosition> result = committeeService.listAssignedTraineeships();
-
-  
+        
         assertEquals(2, result.size());
         assertTrue(result.stream().allMatch(TraineeshipPosition::isAssigned));
         verify(positionMapper).getallAssigned();
@@ -220,8 +219,8 @@ public class CommitteeServiceTest {
     
     @Test
     void testcompleteAssignedTraineeships_whenPass() {
-        // Given
-        Integer positionId = 1;
+        
+    	Integer positionId = 1;
         TraineeshipPosition position = new TraineeshipPosition();
         position.setId(positionId);
         
@@ -239,10 +238,8 @@ public class CommitteeServiceTest {
         when(positionMapper.findById(positionId))
             .thenReturn(Optional.of(position));
 
-        // When
         committeeService.completeAssignedTraineeships(positionId);
 
-        // Then
         assertTrue(position.isPassFailGrade());
         verify(positionMapper).findById(positionId);
     }
