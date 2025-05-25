@@ -43,7 +43,7 @@ public class ProfessorController {
     @PostMapping("/save-profile")
     public String saveProfile(@ModelAttribute("professor") Professor prof, Model model) {
     	professorService.saveProfile(prof);
-        return "redirect:/professor/dashboard";
+        return "redirect:/login";
     }
 
 
