@@ -21,12 +21,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Autowired 
 	private UserMapper userDAO;
 	
-    @Autowired
-    public UserServiceImpl(PasswordEncoder passwordEncoder, UserMapper userDAO) {
-        this.passwordEncoder = passwordEncoder;
-        this.userDAO = userDAO;
-    }
-	
+
 	
 	@Override
 	public void saveUser(User user) {
