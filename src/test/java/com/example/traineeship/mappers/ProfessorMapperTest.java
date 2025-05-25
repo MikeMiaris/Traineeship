@@ -53,19 +53,17 @@ public class ProfessorMapperTest {
         TraineeshipPosition pos2 = new TraineeshipPosition("pos2","s", LocalDate.now(),LocalDate.now(),"AI","pos");
         TraineeshipPosition pos3 = new TraineeshipPosition("pos3","s", LocalDate.now(),LocalDate.now(),"AI","pos");
         
-        pos1.setSupervisor(p1);
-        p1.addSupervisedPosition(pos1);
-        
-        pos2.setSupervisor(p2);
-        pos3.setSupervisor(p2);
-        p2.addSupervisedPosition(pos2);
-        p2.addSupervisedPosition(pos3);
-        
-        professorMapper.save(p1);
-        professorMapper.save(p2);
         positionMapper.save(pos1);
         positionMapper.save(pos2);
         positionMapper.save(pos3);
+        
+        p1.addSupervisedPosition(pos1);   
+        p2.addSupervisedPosition(pos2);
+        p2.addSupervisedPosition(pos3);
+    
+        professorMapper.save(p1);
+        professorMapper.save(p2);
+             
         
         Professor result = professorMapper.findByLoad();
         
