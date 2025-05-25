@@ -42,7 +42,7 @@ public class CustomSecuritySuccessHandler extends SimpleUrlAuthenticationSuccess
 	            url = "/student/dashboard";
 	        }else if(roles.contains("PROFESSOR")) {
 	            url = "/professor/dashboard";
-	        }else if(roles.contains("COMAPNY")){
+	        }else if(roles.contains("COMPANY")){
 	        	url = "/company/dashboard";
 	        }else if(roles.contains("COMMITTEE")){
 	        	url = "/committee/dashboard";
