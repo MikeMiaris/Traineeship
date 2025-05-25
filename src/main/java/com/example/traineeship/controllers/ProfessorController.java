@@ -42,7 +42,6 @@ public class ProfessorController {
 
     @PostMapping("/save-profile")
     public String saveProfile(@ModelAttribute("professor") Professor prof, Model model) {
-    	System.out.println("professor name in save profile: "+ prof.getUsername());
     	professorService.saveProfile(prof);
         return "redirect:/professor/dashboard";
     }
@@ -93,7 +92,6 @@ public class ProfessorController {
     
     @GetMapping("/new-professor-form")
     public String showProfessorForm(@ModelAttribute("professor") Professor prof, Model model) {
-    	System.out.println("professor name in new form: "+ prof.getUsername());
         return "professor/new-professor-form";
     }
 }
