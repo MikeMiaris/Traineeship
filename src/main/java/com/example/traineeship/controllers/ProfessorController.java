@@ -41,10 +41,9 @@ public class ProfessorController {
     }
 
     @PostMapping("/save-profile")
-    public String saveProfile(@ModelAttribute("professor") Professor professor, Model model) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        professor.setUsername(username); // <== Force set the correct username
-        professorService.saveProfile(professor);
+    public String saveProfile(@ModelAttribute("professor") Professor prof, Model model) {
+    	System.out.println("professor name in save profile: "+ prof.getUsername());
+    	professorService.saveProfile(prof);
         return "redirect:/professor/dashboard";
     }
 
@@ -52,7 +51,6 @@ public class ProfessorController {
     // GET /professor/traineeships — US14
     @GetMapping("/traineeships")
     public String listAssignedTraineeships(Model model) {
-    	
     	try {
     		String me = SecurityContextHolder.getContext().getAuthentication().getName();
     		List<TraineeshipPosition> list = professorService.retrieveAssignedPositions(me);
@@ -94,11 +92,8 @@ public class ProfessorController {
     }
     
     @GetMapping("/new-professor-form")
-    public String showProfessorForm(Model model) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Professor professor = new Professor();
-        professor.setUsername(username); // Set the username from logged in user
-        model.addAttribute("professor", professor);
+    public String showProfessorForm(@ModelAttribute("professor") Professor prof, Model model) {
+    	System.out.println("professor name in new form: "+ prof.getUsername());
         return "professor/new-professor-form";
     }
 }
