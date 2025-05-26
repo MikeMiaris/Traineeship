@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Traineeship Applications</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">
+                <i class="fas fa-user-graduate mr-2"></i>Traineeship Applications
+            </h3>
+        </div>
+        <div class="card-body">
+            <!-- Error message display -->
+            <div th:if="${error}" class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
+            </div>
+            
+            <div class="mb-4">
+                <a th:href="@{/Committee/dashboard}" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Student Name</th>
+                            <th>AM</th>
+                            <th>Average Grade</th>
+                            <th>Skills</th>
+                            <th>Interests</th>
+                            <th>Position Search</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="student : ${Traineeship_Applications}">
+                            <td th:text="${student.studentName}"></td>
+                            <td th:text="${student.AM}"></td>
+                            <td th:text="${student.avgGrade}"></td>
+                            <td>
+                                <span th:each="skill : ${#strings.arraySplit(student.skills, ',')}" 
+                                      th:text="${#strings.trim(skill)}" 
+                                      class="badge badge-info mr-1"></span>
+                            </td>
+                            <td>
+                                <span th:each="interest : ${#strings.arraySplit(student.interests, ',')}" 
+                                      th:text="${#strings.trim(interest)}" 
+                                      class="badge badge-secondary mr-1"></span>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle btn-sm" type="button" 
+                                            id="dropdownMenuButton" data-toggle="dropdown" 
+                                            aria-haspopup="true" aria-expanded="false">
+                                        Find Positions
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" 
+                                           th:href="@{/Committee/find_positions/{username}/strategy='location'(username=${student.username})}">
+                                            <i class="fas fa-clipboard mr-1"></i> Location
+                                        </a>
+                                        <a class="dropdown-item" 
+                                           th:href="@{/Committee/find_positions/{username}/strategy='interests'(username=${student.username})}">
+                                            <i class="fas fa-clipboard mr-1"></i> Interests
+                                        </a>
+                                        <a class="dropdown-item" 
+                                           th:href="@{/Committee/find_positions/{username}/strategy='composite'(username=${student.username})}">
+                                            <i class="fas fa-clipboard-check mr-1"></i> Composite
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(Traineeship_Applications)}">
+                            <td colspan="7" class="text-center text-muted">
+                                No traineeship applications found
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
