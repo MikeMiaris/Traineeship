@@ -63,10 +63,9 @@ public class UserController {
         switch (user.getRole()) {
             case STUDENT:
             	Student student = new Student();
-            	student.setUsername(user.getUsername());
-            	
-            	red.addFlashAttribute("student", student);
-            	
+                student.setUsername(user.getUsername());
+                
+                red.addFlashAttribute("student", student);
                 return "redirect:/student/new-student-form";
             
             case COMPANY:
@@ -87,7 +86,13 @@ public class UserController {
                 return "redirect:/professor/new-professor-form";
             
             case COMMITTEE:
-                return "redirect:/committee/new-committee-form";
+            	Professor professorC = new Professor();
+                professorC.setUsername(user.getUsername());
+                
+                // change to keep professor through redirect
+                // committee members are also professors, but will be able to get into the committee dashboard
+                red.addFlashAttribute("professor", professorC);
+                return "redirect:/professor/new-professor-form";
             
             default:
                 return "redirect:/?error=true";
