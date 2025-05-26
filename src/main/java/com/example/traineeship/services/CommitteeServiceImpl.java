@@ -3,6 +3,7 @@ package com.example.traineeship.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.traineeship.factories.PositionSearchFactory;
 import com.example.traineeship.factories.PositionSearchStrategy;
@@ -17,7 +18,7 @@ import com.example.traineeship.domainmodel.Student;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
 
 @Service
-public class CommitteeServiceImpl {
+public class CommitteeServiceImpl implements CommitteeService {
 	PositionSearchFactory positionSearchFactory;
 	SupervisorAssignmentFactory supervisorAssignmentFactory;
 	StudentMapper studentMapper;
@@ -32,6 +33,7 @@ public class CommitteeServiceImpl {
 	}
 
 	@Override
+	public
 	List<TraineeshipPosition> retrievePositionsForApplicant(String applicantUsername, String Strategy){
 		PositionSearchStrategy searchtype = positionSearchFactory.create(Strategy);
 		return searchtype.search(applicantUsername);
@@ -39,6 +41,7 @@ public class CommitteeServiceImpl {
 	}
 
 	@Override
+	public
 	List<Student> retrieveTraineeShipApplications(){
 		return studentMapper.LookingForTrain();
 		
@@ -46,6 +49,7 @@ public class CommitteeServiceImpl {
 	}
 
 	@Override
+	public
 	void assignPosition(Integer positionid, String studentUsername){
 		TraineeshipPosition position = positionMapper.findById(positionid).orElseThrow(()-> new IllegalArgumentException("No such position found: " + positionid));
 		Student student = studentMapper.findById(studentUsername).orElseThrow(()-> new IllegalArgumentException("No such student found: " + studentUsername));
@@ -57,6 +61,7 @@ public class CommitteeServiceImpl {
 		
 	}
 	@Override
+	public
 	void assignSupervisor(Integer positionid, String strategy){
 		SupervisorAssignmentStrategy assigntype = supervisorAssignmentFactory.create(strategy);
 		assigntype.assign(positionid);
@@ -64,12 +69,14 @@ public class CommitteeServiceImpl {
 		
 	}
 	@Override
+	public
 	List<TraineeshipPosition> listAssignedTraineeships(){
 		return positionMapper.getallAssigned();
 		
 	}
 
 	@Override
+	public
 	void completeAssignedTraineeships(Integer positionid) {
 		TraineeshipPosition position = positionMapper.findById(positionid).orElseThrow(()-> new IllegalArgumentException("No such position found: " + positionid));
 		List<Evaluation> evaluations = position.getEvaluations();
