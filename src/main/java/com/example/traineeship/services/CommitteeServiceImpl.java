@@ -16,6 +16,7 @@ import com.example.traineeship.domainmodel.Professor;
 import com.example.traineeship.domainmodel.Student;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
 
+@Service
 public class CommitteeServiceImpl {
 	PositionSearchFactory positionSearchFactory;
 	SupervisorAssignmentFactory supervisorAssignmentFactory;
@@ -29,17 +30,22 @@ public class CommitteeServiceImpl {
 		this.studentMapper = SMapper;
 		this.positionMapper = pmapper;
 	}
-	
+
+	@Override
 	List<TraineeshipPosition> retrievePositionsForApplicant(String applicantUsername, String Strategy){
 		PositionSearchStrategy searchtype = positionSearchFactory.create(Strategy);
 		return searchtype.search(applicantUsername);
 		
 	}
+
+	@Override
 	List<Student> retrieveTraineeShipApplications(){
 		return studentMapper.LookingForTrain();
 		
 		
 	}
+
+	@Override
 	void assignPosition(Integer positionid, String studentUsername){
 		TraineeshipPosition position = positionMapper.findById(positionid).orElseThrow(()-> new IllegalArgumentException("No such position found: " + positionid));
 		Student student = studentMapper.findById(studentUsername).orElseThrow(()-> new IllegalArgumentException("No such student found: " + studentUsername));
@@ -50,16 +56,20 @@ public class CommitteeServiceImpl {
 		
 		
 	}
+	@Override
 	void assignSupervisor(Integer positionid, String strategy){
 		SupervisorAssignmentStrategy assigntype = supervisorAssignmentFactory.create(strategy);
 		assigntype.assign(positionid);
 		
 		
 	}
+	@Override
 	List<TraineeshipPosition> listAssignedTraineeships(){
 		return positionMapper.getallAssigned();
 		
 	}
+
+	@Override
 	void completeAssignedTraineeships(Integer positionid) {
 		TraineeshipPosition position = positionMapper.findById(positionid).orElseThrow(()-> new IllegalArgumentException("No such position found: " + positionid));
 		List<Evaluation> evaluations = position.getEvaluations();
