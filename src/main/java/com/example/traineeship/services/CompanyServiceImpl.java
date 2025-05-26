@@ -110,6 +110,9 @@ public class CompanyServiceImpl implements CompanyService {
 		
 		position.addEvaluation(evaluation);
 		traineeshipPositionMapper.save(position);
+		evaluation.setTraineeshipPosition(position);
+		evaluation.setEvalType(EvaluationType.COMPANY);
+		evaluationMapper.save(evaluation);
 		
 	}
 	
