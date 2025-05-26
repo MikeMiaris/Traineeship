@@ -44,6 +44,7 @@ public class CommitteController {
 	String findPositions(@PathVariable("studentUsername") String studentUsername, @PathVariable("strategy") String strategy, Model model) {
 		try {
 			List<TraineeshipPosition> positions = committeeService.retrievePositionsForApplicant(studentUsername, strategy);
+			model.addAttribute("studentUsername",studentUsername);
 			model.addAttribute("Traineeship_Positions",positions);
 		}
 		catch(Exception e){
