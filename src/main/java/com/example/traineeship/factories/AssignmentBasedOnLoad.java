@@ -36,8 +36,6 @@ public class AssignmentBasedOnLoad implements SupervisorAssignmentStrategy {
 		position.setSupervisor(professor);
 		position.setAssigned(true);
 		
-
-		
 		professor.addSupervisedPosition(position);
 	}
 }

@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.traineeship.domainmodel.Professor;
@@ -24,7 +25,7 @@ public class AssignmentBasedOnInterests implements SupervisorAssignmentStrategy{
 	TraineeshipPositionMapper positionsMapper;
 	ProfessorMapper professorMapper;
 	
-	
+	@Autowired
 	public AssignmentBasedOnInterests(TraineeshipPositionMapper posmapper, ProfessorMapper profmapper) {
 		this.positionsMapper = posmapper;
 		this.professorMapper = profmapper;

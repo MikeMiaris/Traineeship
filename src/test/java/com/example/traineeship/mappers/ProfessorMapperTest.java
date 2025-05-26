@@ -35,7 +35,7 @@ public class ProfessorMapperTest {
         professorMapper.save(p1);
         professorMapper.save(p2);
         
-        List<Professor> result = professorMapper.findByInterest("AI");
+        List<Professor> result = professorMapper.findByInterest("AI,ML");
         
         assertThat(result).isNotEmpty();
         assertThat(result).extracting(Professor::getUsername).contains("user1");
