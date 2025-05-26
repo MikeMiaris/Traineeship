@@ -49,7 +49,8 @@ public class WebSecurityConfig {
 
         return authProvider;
     }
-
+    
+    // to allow for committee members to act as professors
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -57,9 +58,9 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/**", "/user/**").permitAll()
                 .requestMatchers("/student/**").hasRole("STUDENT")
-                .requestMatchers("/professor/**").hasRole("PROFESSOR")
+                .requestMatchers("/professor/**").hasAnyRole("PROFESSOR", "COMMITTEE")
                 .requestMatchers("/company/**").hasRole("COMPANY")
-                .requestMatchers("/committee/**").hasRole("COMMITTEE") 
+                .requestMatchers("/Committee/**").hasRole("COMMITTEE") 
 
                 .anyRequest().authenticated()
             )
