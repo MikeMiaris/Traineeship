@@ -57,11 +57,11 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="assignDropdown_${position.positionId}">
                                         <a class="dropdown-item" 
-                                           th:href="@{/Committee/assign_Position/${studentUsername}/${position.id}/load">
+                                           th:href="@{/Committee/assign_Position/{studentUsername}/{positionId}/load(studentUsername=${studentUsername}, positionId=${position.id})}">
                                             <i class="fas fa-clipboard mr-1"></i> Based on load
                                         </a>
                                         <a class="dropdown-item" 
-                                           th:href="@{/Committee/assign_Position/${studentUsername}/${position.id}/interests">
+                                           th:href="@{/Committee/assign_Position/{studentUsername}/{positionId}/interests(studentUsername=${studentUsername}, positionId=${position.id})}">
                                             <i class="fas fa-clipboard mr-1"></i> Based on interests
                                         </a>
                                     </div>
