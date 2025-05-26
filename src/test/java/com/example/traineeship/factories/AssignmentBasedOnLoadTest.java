@@ -92,11 +92,10 @@ public class AssignmentBasedOnLoadTest {
         pos9.setSupervisor(user4);
         
         
-        
-        
-     
-        
-        
+        profmapper.save(user1);
+        profmapper.save(user2);
+        profmapper.save(user3);
+        profmapper.save(user4);
         profmapper.save(user5);
         positionMapper.save(pos1);
         positionMapper.save(pos2);
@@ -131,20 +130,11 @@ public class AssignmentBasedOnLoadTest {
         
     }
 
-    /*@Test
-    void search_ShouldThrow_WhenStudentNotFound() {
+    @Test
+    void search_ShouldThrow_WhenPositionNotFound() {
 
         assertThrows(IllegalArgumentException.class, () -> {
-            strategy.search("unknown");
+            strategy.assign(123123);
         });
     }
-
-    @Test
-    void search_ShouldReturnEmptyList_WhenNoLocation() {
-    	Student user1 = new Student("user1", "user1", "0000", 1.1, "Bangladesh", "Soda", "None", true, null);
-    	studentMapper.save(user1);
-
-        List<TraineeshipPosition> result = strategy.search(user1.getUsername());
-        assertTrue(result.isEmpty());
-    }*/
 }
