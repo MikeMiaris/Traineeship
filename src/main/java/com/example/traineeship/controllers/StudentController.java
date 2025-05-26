@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/student")
@@ -28,7 +29,7 @@ public class StudentController {
         try {
             Student student = studentService.retrieveProfile(username);
             model.addAttribute("student", student);
-            return "/student/profile-view";
+            return "student/profile-view";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "redirect:/student/dashboard";
@@ -39,7 +40,7 @@ public class StudentController {
     public String saveProfile(@ModelAttribute("student") Student student, Model model) {
         try {
             studentService.saveProfile(student);
-            return "redirect:/student/dashboard";
+            return "redirect:/login";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "redirect:/student/profile";
@@ -47,16 +48,20 @@ public class StudentController {
     }
 
     @GetMapping("/fill_logbook")
-    public String fillLogbook(Model model) {
-    	String username = SecurityContextHolder.getContext().getAuthentication().getName();;
-        try {
-            Student student = studentService.retrieveProfile(username);
-            model.addAttribute("position", student.getAssignedTraineeship());
-            return "student/logbook-form";
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
+    public String fillLogbook(Model model, RedirectAttributes flash) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Student student = studentService.retrieveProfile(username);
+
+        TraineeshipPosition position = student.getAssignedTraineeship();
+        
+        if (position == null) {
+            flash.addFlashAttribute("error", "You have not been assigned a traineeship yet.");
             return "redirect:/student/dashboard";
         }
+
+        model.addAttribute("position", position);
+        return "student/logbook-form";
+
     }
 
     @PostMapping("/save_logbook")
@@ -71,8 +76,7 @@ public class StudentController {
     }
 
     @GetMapping("/new-student-form")
-    public String newStudentForm(Model model) {
-        model.addAttribute("student", new Student());
+    public String newStudentForm(@ModelAttribute("student") Student stud,Model model) {
         return "student/new-student-form";
     }
 

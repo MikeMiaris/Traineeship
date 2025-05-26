@@ -1,94 +1,74 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Student Profile</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form th:action="@{/student/save_profile}" th:object="${student}" method="post" novalidate>
-                <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h3 class="mb-0">Student Profile</h3>
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Student Profile</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Username -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 font-weight-bold">Username:</div>
+                        <div class="col-md-8" th:text="${student.username}"></div>
                     </div>
-                    <div class="card-body">
-                        <!-- Username -->
-                        <div class="form-group row">
-                            <label for="username" class="col-md-4 col-form-label font-weight-bold">Username:</label>
-                            <div class="col-md-8">
-                                <input type="text" th:field="*{username}" id="username" class="form-control" readonly />
-                            </div>
-                        </div>
 
-                        <!-- Full Name -->
-                        <div class="form-group row">
-                            <label for="studentName" class="col-md-4 col-form-label font-weight-bold">Full Name:</label>
-                            <div class="col-md-8">
-                                <input type="text" th:field="*{studentName}" id="studentName" class="form-control" required />
-                            </div>
-                        </div>
+                    <!-- Full Name -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 font-weight-bold">Full Name:</div>
+                        <div class="col-md-8" th:text="${student.studentName}"></div>
+                    </div>
 
-                        <!-- University ID -->
-                        <div class="form-group row">
-                            <label for="AM" class="col-md-4 col-form-label font-weight-bold">University ID (AM):</label>
-                            <div class="col-md-8">
-                                <input type="text" th:field="*{AM}" id="AM" class="form-control" required />
-                            </div>
-                        </div>
+                    <!-- University ID (AM) -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 font-weight-bold">University ID (AM):</div>
+                        <div class="col-md-8" th:text="${student.AM}"></div>
+                    </div>
 
-                        <!-- Average Grade -->
-                        <div class="form-group row">
-                            <label for="avgGrade" class="col-md-4 col-form-label font-weight-bold">Average Grade:</label>
-                            <div class="col-md-8">
-                                <input type="number" step="0.01" th:field="*{avgGrade}" id="avgGrade" class="form-control" />
-                            </div>
-                        </div>
+                    <!-- Average Grade -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 font-weight-bold">Average Grade:</div>
+                        <div class="col-md-8" th:text="${student.avgGrade}"></div>
+                    </div>
 
-                        <!-- Preferred Location -->
-                        <div class="form-group row">
-                            <label for="preferredLocation" class="col-md-4 col-form-label font-weight-bold">Preferred Location:</label>
-                            <div class="col-md-8">
-                                <input type="text" th:field="*{preferredLocation}" id="preferredLocation" class="form-control" />
-                            </div>
-                        </div>
+                    <!-- Preferred Location -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 font-weight-bold">Preferred Location:</div>
+                        <div class="col-md-8" th:text="${student.preferredLocation}"></div>
+                    </div>
 
-                        <!-- Interests -->
-                        <div class="form-group row">
-                            <label for="interests" class="col-md-4 col-form-label font-weight-bold">Interests:</label>
-                            <div class="col-md-8">
-                                <input type="text" th:field="*{interests}" id="interests" class="form-control" placeholder="e.g. Machine Learning,Cybersecurity,UX Design" />
-                            </div>
-                        </div>
+                    <!-- Interests -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 font-weight-bold">Interests:</div>
+                        <div class="col-md-8" th:text="${student.interests}"></div>
+                    </div>
 
-                        <!-- Skills -->
-                        <div class="form-group row">
-                            <label for="skills" class="col-md-4 col-form-label font-weight-bold">Skills:</label>
-                            <div class="col-md-8">
-                                <input type="text" th:field="*{skills}" id="skills" class="form-control" placeholder="e.g. Spring,Java,Python" />
-                            </div>
-                        </div>
+                    <!-- Skills -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 font-weight-bold">Skills:</div>
+                        <div class="col-md-8" th:text="${student.skills}"></div>
+                    </div>
 
-                        <!-- Looking for Traineeship -->
-                        <div class="form-group row">
-                            <label for="lookingForTraineeship" class="col-md-4 col-form-label font-weight-bold">Looking for Traineeship:</label>
-                            <div class="col-md-8 form-check">
-                                <input type="checkbox" th:field="*{lookingForTraineeship}" id="lookingForTraineeship" class="form-check-input" />
-                                <label class="form-check-label" for="lookingForTraineeship">Yes</label>
-                            </div>
-                        </div>
+                    <!-- Looking for Traineeship -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 font-weight-bold">Looking for Traineeship:</div>
+                        <div class="col-md-8" th:text="${student.lookingForTraineeship ? 'Yes' : 'No'}"></div>
+                    </div>
 
-                        <!-- Buttons -->
-                        <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-success">Save</button>
-                            <a th:href="@{/student/dashboard}" class="btn btn-secondary ml-2">Back to Dashboard</a>
-                        </div>
+                    <!-- Back to Dashboard -->
+                    <div class="text-center mt-4">
+                        <a th:href="@{/student/dashboard}" class="btn btn-primary">Back to Dashboard</a>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
