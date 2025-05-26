@@ -58,7 +58,8 @@ public class CommitteController {
 	String assignPosition(@PathVariable("position_id") Integer positionId, @PathVariable("strategy") String strategy, @PathVariable("studentUsername") String studentUsername, Model model) {
 		try {
 			committeeService.assignPosition(positionId, studentUsername);
-			return "/Committee/assign_supervisor/"+positionId+"/"+strategy;
+			return "redirect:/Committee/assign_supervisor/" + positionId + "/" + strategy;
+
 		}
 		catch(Exception e) {
 			model.addAttribute("error", e.getMessage());
@@ -82,7 +83,7 @@ public class CommitteController {
 	String listAssignedTraineeships(Model model) {
 		try {
 			List<TraineeshipPosition> positions = committeeService.listAssignedTraineeships();
-			model.addAttribute("/Committee/Assigned_Traineeships",positions);
+			model.addAttribute("Assigned_Traineeships", positions);
 		}
 		catch(Exception e){
 			model.addAttribute("error", e.getMessage());
