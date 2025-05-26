@@ -20,7 +20,7 @@ public class Professor {
 	private String interests;
 	
 	@OneToMany(cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY,
+			fetch = FetchType.EAGER,
 			mappedBy="supervisor")
 	List<TraineeshipPosition> supervisedPositions;
     

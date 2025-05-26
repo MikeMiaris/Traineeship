@@ -57,6 +57,8 @@ public class CommitteeServiceImpl implements CommitteeService {
 		position.setAssigned(true);
 		position.setStudent(student);
 		student.setAssignedTraineeship(position);
+		studentMapper.save(student);
+		positionMapper.save(position);
 		
 		
 	}

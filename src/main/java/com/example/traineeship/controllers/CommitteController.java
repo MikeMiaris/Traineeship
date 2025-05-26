@@ -54,11 +54,11 @@ public class CommitteController {
 		return "/Committee/Traineeship_Positions";
 	}
 	
-	@RequestMapping("/Committee/assign_Position/{studentUsername}/{position_id}/{strategy}")
-	String assignPosition(@PathVariable("position_id") Integer positionId, @PathVariable("strategy") String strategy, @PathVariable("studentUsername") String studentUsername, Model model) {
+	@RequestMapping("/Committee/assign_Position/{studentUsername}/{position_id}")
+	String assignPosition(@PathVariable("position_id") Integer positionId, @PathVariable("studentUsername") String studentUsername, Model model) {
 		try {
 			committeeService.assignPosition(positionId, studentUsername);
-			return "redirect:/Committee/assign_supervisor/" + positionId + "/" + strategy;
+			return "redirect:/Committee/dashboard";
 
 		}
 		catch(Exception e) {
@@ -67,11 +67,11 @@ public class CommitteController {
 		}
 	}
 	
-	@RequestMapping("/Committee/assign_supervisor/{position_id}/{strategy}")
-	String assignSupervisor(@PathVariable("position_id") Integer positionId, @PathVariable("strategy") String strategy, Model model) {
+	@RequestMapping("/Committee/assign_supervisor/{studentUsername}/{position_id}/{strategy}")
+	String assignSupervisor(@PathVariable("studentUsername")String username,@PathVariable("position_id") Integer positionId, @PathVariable("strategy") String strategy, Model model) {
 		try {
 			committeeService.assignSupervisor(positionId, strategy);
-			return "redirect:/Committee/list_Assigned_Traineeships";
+			return "redirect:/Committee/assign_Position/" + username + "/" + positionId;
 		}
 		catch(Exception e) {
 			model.addAttribute("error", e.getMessage());
