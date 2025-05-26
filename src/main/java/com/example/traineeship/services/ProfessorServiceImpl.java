@@ -69,6 +69,7 @@ public class ProfessorServiceImpl implements ProfessorService{
 		TraineeshipPosition pos = positionMapper.findById(positionId).orElseThrow(() -> new IllegalArgumentException("Position not found"));
 		
 		pos.addEvaluation(evaluation);
+		positionMapper.save(pos);
 		
     }
 	

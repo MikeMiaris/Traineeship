@@ -109,6 +109,7 @@ public class CompanyServiceImpl implements CompanyService {
                     new IllegalArgumentException("Position doesn't exist: " + positionId));
 		
 		position.addEvaluation(evaluation);
+		traineeshipPositionMapper.save(position);
 		
 	}
 	
