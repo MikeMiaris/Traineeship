@@ -65,7 +65,7 @@ public class ProfessorMapperTest {
         professorMapper.save(p2);
              
         
-        Professor result = professorMapper.findByLoad();
+        Professor result = professorMapper.findByLoad().get(0);
         
         assertThat(result).isNotNull();
         assertThat(result.getUsername()).isEqualTo("user1");
