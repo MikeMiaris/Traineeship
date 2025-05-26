@@ -65,15 +65,15 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" 
-                                           th:href="@{/Committee/find_positions/{username}/strategy='location'(username=${student.username})}">
+                                           th:href="@{/Committee/find_positions/{username}/location(username=${student.username})}">
                                             <i class="fas fa-clipboard mr-1"></i> Location
                                         </a>
                                         <a class="dropdown-item" 
-                                           th:href="@{/Committee/find_positions/{username}/strategy='interests'(username=${student.username})}">
+                                           th:href="@{/Committee/find_positions/{username}/interests(username=${student.username})}">
                                             <i class="fas fa-clipboard mr-1"></i> Interests
                                         </a>
                                         <a class="dropdown-item" 
-                                           th:href="@{/Committee/find_positions/{username}/strategy='composite'(username=${student.username})}">
+                                           th:href="@{/Committee/find_positions/{username}/composite(username=${student.username})}">
                                             <i class="fas fa-clipboard-check mr-1"></i> Composite
                                         </a>
                                     </div>
