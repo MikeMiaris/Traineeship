@@ -21,7 +21,6 @@ public class Professor {
 	
 	@OneToMany(cascade = CascadeType.ALL,
 			fetch = FetchType.LAZY,
-			orphanRemoval = true,
 			mappedBy="supervisor")
 	List<TraineeshipPosition> supervisedPositions;
     
