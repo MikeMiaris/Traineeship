@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.traineeship.domainmodel.Company;
 import com.example.traineeship.domainmodel.Evaluation;
+import com.example.traineeship.domainmodel.EvaluationType;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
 
 import com.example.traineeship.services.CompanyService;
@@ -149,7 +150,9 @@ public class CompanyController {
 		// D: check if company can evaluate position, stop otherwise?
 		try {
 			companyService.evaluateAssignedPosition(username, positionId);
-			model.addAttribute("evaluation", new Evaluation());
+			Evaluation eval = new Evaluation();
+			model.addAttribute("evaluation", eval);
+			model.addAttribute("position_id", positionId);
 			return "company/evaluation-form";
 		}
 		// the way errors are to be handled ig, although dunno if this is somehow even viable
