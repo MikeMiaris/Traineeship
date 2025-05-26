@@ -6,18 +6,23 @@ import com.example.traineeship.services.CommitteeService;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@Controller
 public class CommitteController {
+	
+	@Autowired
 	CommitteeService committeeService;
 	
 	@RequestMapping("/Committee/dashboard")
 	String getCommitteeDashboard() {
-		return "/Committee/dashboard";
+		return "Committee/dashboard";
 	}
 	
 	@RequestMapping("/Committee/List_Traineeship_Applications")
@@ -34,8 +39,9 @@ public class CommitteController {
 		return "Committee/Traineeship_Applications";
 	}
 	
-	@RequestMapping("/Committee/find_positions")
-	String findPositions(String studentUsername, String strategy, Model model) {
+	
+	@RequestMapping("/Committee/find_positions/{studentUsername}/{strategy}")
+	String findPositions(@PathVariable("studentUsername") String studentUsername, @PathVariable("strategy") String strategy, Model model) {
 		try {
 			List<TraineeshipPosition> positions = committeeService.retrievePositionsForApplicant(studentUsername, strategy);
 			model.addAttribute("Traineeship_Positions",positions);
@@ -47,11 +53,11 @@ public class CommitteController {
 		return "/Committee/Traineeship_Positions";
 	}
 	
-	@RequestMapping("/Committee/assign_Position/{position_id}")
-	String assignPosition(@PathVariable("position_id") Integer positionId, String studentUsername, Model model) {
+	@RequestMapping("/Committee/assign_Position/{studentUsername}/{position_id}/{strategy}")
+	String assignPosition(@PathVariable("position_id") Integer positionId, @PathVariable("strategy") String strategy, @PathVariable("studentUsername") String studentUsername, Model model) {
 		try {
 			committeeService.assignPosition(positionId, studentUsername);
-			return "/Committee/list_Assigned_Traineeships";
+			return "/Committee/assign_supervisor/"+positionId+"/"+strategy;
 		}
 		catch(Exception e) {
 			model.addAttribute("error", e.getMessage());
@@ -59,11 +65,11 @@ public class CommitteController {
 		}
 	}
 	
-	@RequestMapping("/Committee/assign_supervisor/{position_id}")
-	String assignSupervisor(@PathVariable("position_id") Integer positionId, String strategy, Model model) {
+	@RequestMapping("/Committee/assign_supervisor/{position_id}/{strategy}")
+	String assignSupervisor(@PathVariable("position_id") Integer positionId, @PathVariable("strategy") String strategy, Model model) {
 		try {
-			committeeService.assignPosition(positionId, strategy);
-			return "/Committee/list_Assigned_Traineeships";
+			committeeService.assignSupervisor(positionId, strategy);
+			return "redirect:/Committee/list_Assigned_Traineeships";
 		}
 		catch(Exception e) {
 			model.addAttribute("error", e.getMessage());
@@ -86,7 +92,7 @@ public class CommitteController {
 	
 	
 	@RequestMapping("/Committee/complete_assigned_traineeships")
-	String completeAssignedTraineeships(Integer positionId, Model model) {
+	String completeAssignedTraineeships(@PathVariable("position_id") Integer positionId, Model model) {
 		try {
 			committeeService.completeAssignedTraineeships(positionId);
 			return "redirect:/Committtee/Assigned_Traineeships";
