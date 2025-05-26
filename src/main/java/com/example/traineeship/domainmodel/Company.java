@@ -27,7 +27,6 @@ public class Company {
 	// joinColumn logic same as student, example doesn't follow this logic (unclear)
 	@OneToMany(	cascade = CascadeType.ALL,
 				fetch = FetchType.LAZY,
-				orphanRemoval = true,
 				mappedBy="company")
 	//@JoinColumn(name = "position_id")
 	private List<TraineeshipPosition> positions ;
