@@ -8,67 +8,79 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .rating-option {
+            color: inherit; /* Remove default link coloring */
+        }
+        .rating-option:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
     <div class="card">
         <div class="card-header bg-primary text-white">
             <h3 class="mb-0">
-                <i class="fas fa-clipboard-check mr-2"></i>Evaluate Traineeship #[[${positionId}]]
+                <i class="fas fa-clipboard-check mr-2"></i>Evaluate Traineeship #<span th:text="${positionId}"></span>
             </h3>
         </div>
         <div class="card-body">
             <!-- Error message display -->
             <div th:if="${error}" class="alert alert-danger" role="alert">
-                <span th:text="${error}"></span>
+                <i class="fas fa-exclamation-circle mr-2"></i><span th:text="${error}"></span>
             </div>
             
-            <form th:action="@{/company/evaluate/{id}(id=${positionId})}"
+            <form th:action="@{/company/evaluate/{id}(id=${position_id})}"
                   th:object="${evaluation}"
                   method="post">
                 
                 <div class="form-group">
                     <label for="motivation">Motivation</label>
                     <select class="form-control" id="motivation" th:field="*{motivation}" required>
-                        <option value="" disabled selected>Select rating (1-5)</option>
-                        <option value="1">1 - Poor</option>
-                        <option value="2">2 - Below Average</option>
-                        <option value="3">3 - Average</option>
-                        <option value="4">4 - Good</option>
-                        <option value="5">5 - Excellent</option>
+                        <option value="0" selected disabled>Select rating (1-5)</option>
+                        <option value="1" class="rating-option">1 - Poor</option>
+                        <option value="2" class="rating-option">2 - Below Average</option>
+                        <option value="3" class="rating-option">3 - Average</option>
+                        <option value="4" class="rating-option">4 - Good</option>
+                        <option value="5" class="rating-option">5 - Excellent</option>
                     </select>
+                    <small class="form-text text-muted">Student's enthusiasm and drive</small>
                 </div>
                 
                 <div class="form-group">
                     <label for="efficiency">Efficiency</label>
                     <select class="form-control" id="efficiency" th:field="*{efficiency}" required>
-                        <option value="" disabled selected>Select rating (1-5)</option>
-                        <option value="1">1 - Poor</option>
-                        <option value="2">2 - Below Average</option>
-                        <option value="3">3 - Average</option>
-                        <option value="4">4 - Good</option>
-                        <option value="5">5 - Excellent</option>
+                        <option value="0" selected disabled>Select rating (1-5)</option>
+                        <option value="1" class="rating-option">1 - Poor</option>
+                        <option value="2" class="rating-option">2 - Below Average</option>
+                        <option value="3" class="rating-option">3 - Average</option>
+                        <option value="4" class="rating-option">4 - Good</option>
+                        <option value="5" class="rating-option">5 - Excellent</option>
                     </select>
+                    <small class="form-text text-muted">Ability to complete tasks with minimal wasted effort</small>
                 </div>
                 
                 <div class="form-group">
                     <label for="effectiveness">Effectiveness</label>
                     <select class="form-control" id="effectiveness" th:field="*{effectiveness}" required>
-                        <option value="" disabled selected>Select rating (1-5)</option>
-                        <option value="1">1 - Poor</option>
-                        <option value="2">2 - Below Average</option>
-                        <option value="3">3 - Average</option>
-                        <option value="4">4 - Good</option>
-                        <option value="5">5 - Excellent</option>
+                        <option value="0" selected disabled>Select rating (1-5)</option>
+                        <option value="1" class="rating-option">1 - Poor</option>
+                        <option value="2" class="rating-option">2 - Below Average</option>
+                        <option value="3" class="rating-option">3 - Average</option>
+                        <option value="4" class="rating-option">4 - Good</option>
+                        <option value="5" class="rating-option">5 - Excellent</option>
                     </select>
+                    <small class="form-text text-muted">Ability to produce desired results</small>
                 </div>
                 
-                <div class="mt-4">
-                    <button type="submit" class="btn btn-primary mr-2">
-                        <i class="fas fa-check"></i> Submit Evaluation
+                
+                <div class="mt-4 d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check mr-2"></i> Submit Evaluation
                     </button>
-                    <a th:href="@{/professor/traineeships}" class="btn btn-outline-secondary">
-                        <i class="fas fa-arrow-left"></i> Back to Traineeships
+                    <a th:href="@{/company/list_assigned_positions}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left mr-2"></i> Back to Positions
                     </a>
                 </div>
             </form>
