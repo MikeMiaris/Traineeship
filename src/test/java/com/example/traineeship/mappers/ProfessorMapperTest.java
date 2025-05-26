@@ -35,8 +35,9 @@ public class ProfessorMapperTest {
         professorMapper.save(p1);
         professorMapper.save(p2);
         
-        List<Professor> result = professorMapper.findByInterest("AI,ML");
+        List<Professor> result = professorMapper.findByInterest(List.of("AI","Java"));
         
+        System.out.println(result);
         assertThat(result).isNotEmpty();
         assertThat(result).extracting(Professor::getUsername).contains("user1");
     }
@@ -65,7 +66,7 @@ public class ProfessorMapperTest {
         professorMapper.save(p2);
              
         
-        Professor result = professorMapper.findByLoad();
+        Professor result = professorMapper.findByLoad().get(0);
         
         assertThat(result).isNotNull();
         assertThat(result.getUsername()).isEqualTo("user1");
