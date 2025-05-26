@@ -66,6 +66,9 @@ public class AssignmentBasedOnInterests implements SupervisorAssignmentStrategy{
 	    	position.setSupervisor(bestProfessor.get());
 			position.setAssigned(true);
 			bestProfessor.get().addSupervisedPosition(position);
+			
+			positionsMapper.save(position);
+			professorMapper.save(bestProfessor.get());
 	    } else {
 	        throw new IllegalStateException("No suitable professor found for position: " + positionid);
 	    }
