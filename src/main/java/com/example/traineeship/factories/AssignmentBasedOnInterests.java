@@ -15,8 +15,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import com.example.traineeship.domainmodel.Professor;
 
+@Service
 public class AssignmentBasedOnInterests implements SupervisorAssignmentStrategy{
 	TraineeshipPositionMapper positionsMapper;
 	ProfessorMapper professorMapper;
