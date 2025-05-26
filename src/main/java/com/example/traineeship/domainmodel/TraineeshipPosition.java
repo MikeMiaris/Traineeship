@@ -51,8 +51,7 @@ public class TraineeshipPosition {
 	
 	// D: Definitely many-to-one, just check for defining mapping etc here => bidirectional
 	// no mappedBy in manyToOne (error)
-	@ManyToOne(	cascade = CascadeType.ALL,
-				fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "company")
 	private Company company;
 	

@@ -63,7 +63,7 @@ public class ProfessorController {
     }
 
     @GetMapping("/evaluate/{positionId}")
-    public String evaluateAssignedtraineeship(@PathVariable Integer positionId, Model model) {
+    public String evaluateAssignedtraineeship(@PathVariable("positionId") Integer positionId, Model model) {
 		
     	String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		try {
@@ -78,8 +78,8 @@ public class ProfessorController {
     
     }
 
-    @PostMapping("/evaluation-form/{positionId}") //CHECK
-    public String saveEvaluation(@PathVariable Integer positionId,@ModelAttribute Evaluation evaluation, Model model) {
+    @PostMapping("/evaluate/{positionId}")
+    public String saveEvaluation(@PathVariable("positionId") Integer positionId, @ModelAttribute("evaluation") Evaluation evaluation, Model model) {
 		
     	try {
 			professorService.saveEvaluation(positionId, evaluation);

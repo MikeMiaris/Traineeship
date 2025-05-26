@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.traineeship.domainmodel.Company;
 import com.example.traineeship.domainmodel.Professor;
 import com.example.traineeship.domainmodel.User;
 import com.example.traineeship.services.UserServiceImpl;
@@ -37,8 +38,10 @@ public class UserController {
     @RequestMapping("/user/save-user")
     public String saveUser(@ModelAttribute("user") User user, Model model, RedirectAttributes red) {
         if (userService.isUserPresent(user)) {
-            model.addAttribute("successMessage", "User already registered!");
-            return "redirect:/?error=true";
+        	if (userService.isUserPresent(user)) {
+                red.addFlashAttribute("errorMessage", "User already registered!");  // Changed to errorMessage
+                return "redirect:/";  // Redirect to home page
+        	}
         }
         
         // Save user first
@@ -59,7 +62,13 @@ public class UserController {
         switch (user.getRole()) {
             case STUDENT:
                 return "redirect:/student/new-student-form";
+            
             case COMPANY:
+            	Company company = new Company();
+                company.setUsername(user.getUsername());
+                
+                red.addFlashAttribute("company", company);
+            	
                 return "redirect:/company/new-company-form";
             
             // finally changed to create the professor in here
@@ -70,8 +79,10 @@ public class UserController {
                 // change to keep professor through redirect
                 red.addFlashAttribute("professor", professor);
                 return "redirect:/professor/new-professor-form";
+            
             case COMMITTEE:
                 return "redirect:/committee/new-committee-form";
+            
             default:
                 return "redirect:/?error=true";
         }

@@ -60,10 +60,10 @@ public class CompanyController {
         return "company/company-profile";
 	}
 	
-	@RequestMapping("/company/save_profile")
+	@RequestMapping("/company/save-profile")
 	public String saveProfile(@ModelAttribute("company") Company company, Model model) {
 		companyService.saveProfile(company);
-		return "redirect:/company/dashboard";
+		return "redirect:/login";
 	}
 	
 	@RequestMapping("/company/list_available_positions")
@@ -100,10 +100,10 @@ public class CompanyController {
 		String username = authentication.getName();
 		try {
 			companyService.addPosition(username, position);
-			return "redirect:/company/available_positions";
+			return "redirect:/company/list_available_positions";
 		}catch(Exception e) {
 			model.addAttribute("error", e.getMessage());
-			return "redirect:/company/available_positions";
+			return "redirect:/company/list_available_positions";
 		}
 		
 	}
@@ -160,7 +160,7 @@ public class CompanyController {
 	}
 	
 	// D: now, with an evaluation all set, get to saving
-	@RequestMapping("/company/save_evaluation/{position_id}")
+	@RequestMapping("/company/evaluate/{position_id}")
 	public String saveEvaluation(@PathVariable("position_id") Integer positionId,
 								@ModelAttribute("evaluation") Evaluation evaluation, Model model) {
 		try {
@@ -173,6 +173,7 @@ public class CompanyController {
 		
 	}
 	
+	// get to remake deletion function
 	@RequestMapping("/company/delete_position/{position_id}")
 	public String deletePosition(@PathVariable("position_id") Integer positionId, Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -185,4 +186,10 @@ public class CompanyController {
 			return "redirect:/company/list_assigned_positions";
 		}
 	}
+	
+	// added to accommodate new company creation
+	@RequestMapping("/company/new-company-form")
+    public String showCompanyForm(@ModelAttribute("company") Company company, Model model) {
+        return "company/new-company-form";
+    }
 }
