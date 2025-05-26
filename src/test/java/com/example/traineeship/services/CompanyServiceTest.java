@@ -115,11 +115,21 @@ public class CompanyServiceTest {
     @Test
     @DisplayName("Test deleting assigned position")
     void testDeleteAssignedPosition() {
-        Company company = spy(new Company("theta", "Theta Ltd", "Ioannina"));
-        
+    	Company company = spy(new Company("theta", "Theta Ltd", "Ioannina"));
+
+        TraineeshipPosition pos = new TraineeshipPosition("Intern", "Desc", LocalDate.now(), LocalDate.now().plusDays(10), "Field", "Req");
+        pos.setId(99);
+
+        company.setPositions(new ArrayList<>(List.of(pos)));
+
         when(companyMapper.findById("theta")).thenReturn(Optional.of(company));
+
+        when(positionMapper.findById(99)).thenReturn(Optional.of(pos));
+
         companyService.deleteAssignedPosition("theta", 99);
+
         verify(company).removePosition(99);
+        assertFalse(company.getPositions().contains(pos));
     }
 
     @Test

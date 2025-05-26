@@ -47,7 +47,7 @@ public class SearchbasedOnInterestsTest {
 
     @Test
     void search_ShouldReturnPositions_ForValidStudent() {
-        Student user1 = new Student("user1", "user1", "0000", 1.1, "Bangladesh", "Soda", "None", true, null);
+        Student user1 = new Student("user1", "user1", "0000", 1.1, "Bangladesh", "Soda,ML", "None", true, null);
         Company comp = new Company("comp1","crapcorp","Bangladesh");
         Company comp2 = new Company("comp2","shitcorp","London");
         
@@ -62,7 +62,8 @@ public class SearchbasedOnInterestsTest {
         pos3.setCompany(comp2);
         pos4.setCompany(comp2);
 
-        
+        companyMapper.save(comp);
+        companyMapper.save(comp2);
         studentMapper.save(user1);
         positionMapper.save(pos1);
         positionMapper.save(pos2);

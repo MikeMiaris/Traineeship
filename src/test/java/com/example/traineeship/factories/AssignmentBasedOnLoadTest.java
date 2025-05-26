@@ -71,6 +71,7 @@ public class AssignmentBasedOnLoadTest {
         
         
         
+        
         user1.addSupervisedPosition(pos1);
         user2.addSupervisedPosition(pos2);
         user2.addSupervisedPosition(pos3);
@@ -80,6 +81,7 @@ public class AssignmentBasedOnLoadTest {
         user4.addSupervisedPosition(pos7);
         user4.addSupervisedPosition(pos8);
         user4.addSupervisedPosition(pos9);
+        
         
         pos1.setSupervisor(user1);
         pos2.setSupervisor(user2);
@@ -92,11 +94,7 @@ public class AssignmentBasedOnLoadTest {
         pos9.setSupervisor(user4);
         
         
-        profmapper.save(user1);
-        profmapper.save(user2);
-        profmapper.save(user3);
-        profmapper.save(user4);
-        profmapper.save(user5);
+        
         positionMapper.save(pos1);
         positionMapper.save(pos2);
         positionMapper.save(pos3);
@@ -107,13 +105,33 @@ public class AssignmentBasedOnLoadTest {
         positionMapper.save(pos8);
         positionMapper.save(pos9);
         positionMapper.save(pos10);
+        profmapper.save(user1);
+        profmapper.save(user2);
+        profmapper.save(user3);
+        profmapper.save(user4);
+        profmapper.save(user5);
+        
+        
+        
+        
+        
+        
+        pos1.setSupervisor(user1);
+        pos2.setSupervisor(user2);
+        pos3.setSupervisor(user2);
+        pos4.setSupervisor(user3);
+        pos5.setSupervisor(user3);
+        pos6.setSupervisor(user3);
+        pos7.setSupervisor(user4);
+        pos8.setSupervisor(user4);
+        pos9.setSupervisor(user4);
+        
+        
         
         //profmapper.flush();
         //positionMapper.flush();
         
         Professor refreshedProf = profmapper.findById(user5.getUsername()).orElseThrow();
-        
-        
 
  
 

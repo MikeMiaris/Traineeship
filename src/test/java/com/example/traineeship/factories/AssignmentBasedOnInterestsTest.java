@@ -17,8 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-
+import org.springframework.test.annotation.Commit;
 
 import com.example.traineeship.domainmodel.Professor;
 
@@ -50,7 +49,7 @@ public class AssignmentBasedOnInterestsTest {
 
     @Test
     void search_ShouldReturnPositions_ForValidPosition() {
-        Professor user1 = new Professor("user1", "user1", "AI");
+        Professor user1 = new Professor("user1", "user1", "AI,Soda");
         Professor user2 = new Professor("user2", "user2", "Soda");
         Professor user3 = new Professor("user3", "user3", "Pepsi");
         Professor user4 = new Professor("user4", "user4", "CocaCola,Burritos");

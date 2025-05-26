@@ -29,8 +29,10 @@ public class SearchBasedOnLocation implements PositionSearchStrategy{
 	
 	
 	public List<TraineeshipPosition> search(String applicantUsername){
+		
 		Student student = studentMapper.findById(applicantUsername).orElseThrow(()-> new IllegalArgumentException("No such applicant"));;
-
+		
+		
         
         return positionMapper.findByLocation(student.getPreferredLocation());
 	}

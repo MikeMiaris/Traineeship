@@ -70,7 +70,7 @@ public class TraineeshipPositionMapperTest {
         TraineeshipPosition pos = new TraineeshipPosition("ML Research", "Deep Learning and AI",LocalDate.now(),LocalDate.now().plusMonths(3), "ML,AI,Vision","Python");
         traineeshipPositionMapper.save(pos);
 
-        List<TraineeshipPosition> results = traineeshipPositionMapper.findBytopic("AI");
+        List<TraineeshipPosition> results = traineeshipPositionMapper.findBytopic(List.of("AI"));
 
         assertFalse(results.isEmpty());
         assertEquals("ML Research", results.get(0).getTitle());

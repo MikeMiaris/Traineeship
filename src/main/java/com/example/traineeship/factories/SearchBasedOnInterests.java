@@ -35,10 +35,12 @@ public class SearchBasedOnInterests implements PositionSearchStrategy {
             return Collections.emptyList();
         }
 
-
-        List<TraineeshipPosition> positions = positionMapper.findBytopic(
-            student.getInterests() 
-        );
+		//List<String> interests = Arrays.asList(student.getInterests().split(","));
+        List<TraineeshipPosition> positions = positionMapper.findAll();
+        System.out.println(positions.size());
+        
+        
+        
         
         Set<String> studentInterestSet = Arrays.stream(student.getInterests().split(",")).map(String::trim)
                 .filter(s -> !s.isEmpty())
@@ -59,7 +61,7 @@ public class SearchBasedOnInterests implements PositionSearchStrategy {
                     union.addAll(studentInterestSet);
 
                     return union.isEmpty() ? false : 
-                        (double) intersection.size() / union.size() >= 0.5;
+                        (double) intersection.size() / union.size() >= 0.3;
                 })
                 .collect(Collectors.toList());
 	}

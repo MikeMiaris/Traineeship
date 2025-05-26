@@ -55,17 +55,23 @@ public class SearchBasedOnLocationTest {
         TraineeshipPosition pos2 = new TraineeshipPosition("pos2", "None", LocalDate.now(),LocalDate.now(),"AI","AI");
         TraineeshipPosition pos3 = new TraineeshipPosition("pos3", "None", LocalDate.now(),LocalDate.now(),"AI","AI");
         
+        
+        companyMapper.save(comp);
+        companyMapper.save(comp2);
+        
+        studentMapper.save(user1);
+        
+        positionMapper.save(pos1);
+        positionMapper.save(pos2);
+        
+        
+ 
         pos1.setCompany(comp);
         pos2.setCompany(comp);
         pos3.setCompany(comp2);
-
         
-        studentMapper.save(user1);
-        positionMapper.save(pos1);
-        positionMapper.save(pos2);
-
- 
-
+        //companyMapper.flush();
+        
         List<TraineeshipPosition> result = strategy.search(user1.getUsername());
 
 

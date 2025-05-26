@@ -61,12 +61,8 @@ public class CompositeSearchTest {
         TraineeshipPosition pos5 = new TraineeshipPosition("pos5", "None", LocalDate.now(),LocalDate.now(),"Soda,AI,doodoo","AI");
         TraineeshipPosition pos6 = new TraineeshipPosition("pos6", "None", LocalDate.now(),LocalDate.now(),"Soda,AI","AI");
         
-        pos1.setCompany(comp);
-        pos2.setCompany(comp);
-        pos3.setCompany(comp2);
-        pos4.setCompany(comp2);
-        pos5.setCompany(comp);
-        pos6.setCompany(comp2);
+        companyMapper.save(comp);
+        companyMapper.save(comp2);
 
         
         studentMapper.save(user1);
@@ -77,7 +73,12 @@ public class CompositeSearchTest {
         positionMapper.save(pos5);
         positionMapper.save(pos6);
 
- 
+        pos1.setCompany(comp);
+        pos2.setCompany(comp);
+        pos3.setCompany(comp2);
+        pos4.setCompany(comp2);
+        pos5.setCompany(comp);
+        pos6.setCompany(comp2);
 
         List<TraineeshipPosition> result = strategy.search(user1.getUsername());
 

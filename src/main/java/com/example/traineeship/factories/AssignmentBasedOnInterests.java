@@ -7,6 +7,7 @@ import com.example.traineeship.mappers.ProfessorMapper;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -34,7 +35,10 @@ public class AssignmentBasedOnInterests implements SupervisorAssignmentStrategy{
 	    TraineeshipPosition position = positionsMapper.findById(positionid)
 	            .orElseThrow(() -> new IllegalArgumentException("Position not found:" + positionid));
 	    
-	    List<Professor> professors = professorMapper.findByInterest(position.getTopics());
+	    List<String> topics = new ArrayList<>(Arrays.asList(position.getTopics().split(",")));
+	    
+	    List<Professor> professors = professorMapper.findByInterest(topics);
+	    
 	    
 	    Set<String> postopicSet = Arrays.stream(position.getTopics().split(","))
 	            .map(String::trim)

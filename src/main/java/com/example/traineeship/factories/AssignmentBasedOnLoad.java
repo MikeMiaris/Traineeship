@@ -29,8 +29,9 @@ public class AssignmentBasedOnLoad implements SupervisorAssignmentStrategy {
 
 	public void assign(Integer positionid) {
 		TraineeshipPosition position = positionsMapper.findById(positionid).orElseThrow(()-> new IllegalArgumentException("Position not found:" + positionid));
-		Professor professor = professorMapper.findByLoad(); ////CHECK CHECK
 		
+		
+		Professor professor = professorMapper.findByLoad().get(0); 
 		
 		
 		position.setSupervisor(professor);

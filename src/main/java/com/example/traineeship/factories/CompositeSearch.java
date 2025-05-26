@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.traineeship.domainmodel.Student;
@@ -14,11 +15,12 @@ import com.example.traineeship.mappers.TraineeshipPositionMapper;
 
 @Service
 public class CompositeSearch implements PositionSearchStrategy{
-	CompanyMapper companyMapper;
-	StudentMapper studentMapper;
-	TraineeshipPositionMapper PositionMapper;
-	SearchBasedOnInterests interests;
+	private final CompanyMapper companyMapper;
+	private final StudentMapper studentMapper;
+	private final TraineeshipPositionMapper PositionMapper;
+	private final SearchBasedOnInterests interests;
 	
+	@Autowired
 	public CompositeSearch(CompanyMapper companymapper, StudentMapper studentmapper, TraineeshipPositionMapper positionmapper, SearchBasedOnInterests interests) {
 		this.companyMapper = companymapper;
 		this.studentMapper = studentmapper;
@@ -38,7 +40,7 @@ public class CompositeSearch implements PositionSearchStrategy{
         );
         
         List<TraineeshipPosition> positionsInt = interests.search(
-                student.getInterests() 
+                student.getUsername() 
             );
         
         List<TraineeshipPosition> positions = positionsloc.stream().filter(positionsInt::contains).collect(Collectors.toList());
