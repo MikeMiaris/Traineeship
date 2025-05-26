@@ -44,7 +44,7 @@
                             <td th:text="${position.student?.studentName}"></td>
                             <td th:text="${#temporals.format(position.fromDate, 'dd/MM/yyyy')}"></td>
                             <td th:text="${#temporals.format(position.toDate, 'dd/MM/yyyy')}"></td>
-                            <td><a th:href="@{/professor/evaluate/{positionId}(positionId = ${position.id})}" class="btn btn-primary btn-sm mb-2">Evaluate</a></td>
+                            <td><a th:href="@{/professor/evaluate_assigned_traineeship/{position_id}(positionId = ${position.id})}" class="btn btn-primary btn-sm mb-2">Evaluate</a></td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(positions)}">
                             <td colspan="7" class="text-center text-muted">

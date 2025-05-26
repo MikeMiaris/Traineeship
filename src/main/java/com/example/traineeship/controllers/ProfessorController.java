@@ -12,19 +12,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/professor")
 public class ProfessorController {
 
     @Autowired 
     private ProfessorService professorService;
     
-    @GetMapping("/dashboard")
+    @RequestMapping("/professor/dashboard")
     public String getProfessorDashboard() {
     	return "professor/dashboard";
     }
     
     
-    @GetMapping("/profile")
+    @RequestMapping("/professor/profile")
     public String retrieveProfile(Model model) {
         
     	String me = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -40,7 +39,7 @@ public class ProfessorController {
         return "professor/profile-view";
     }
 
-    @PostMapping("/save-profile")
+    @RequestMapping("/professor/save-profile")
     public String saveProfile(@ModelAttribute("professor") Professor prof, Model model) {
     	professorService.saveProfile(prof);
         return "redirect:/login";
@@ -48,7 +47,7 @@ public class ProfessorController {
 
 
     // GET /professor/traineeships — US14
-    @GetMapping("/traineeships")
+    @RequestMapping("/professor/traineeships")
     public String listAssignedTraineeships(Model model) {
     	try {
     		String me = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -62,13 +61,14 @@ public class ProfessorController {
         return "professor/traineeships";
     }
 
-    @GetMapping("/evaluate/{positionId}")
+    @RequestMapping("/professor/evaluate_assigned_traineeship/{position_id}")
     public String evaluateAssignedtraineeship(@PathVariable("positionId") Integer positionId, Model model) {
 		
     	String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		try {
 			professorService.evaluateAssignedPosition(positionId, username);
 			model.addAttribute("evaluation", new Evaluation());
+			model.addAttribute("position_id", positionId);
 			return "professor/evaluation-form";
 		}
 		catch (Exception e) {
@@ -78,7 +78,7 @@ public class ProfessorController {
     
     }
 
-    @PostMapping("/evaluate/{positionId}")
+    @RequestMapping("/professor/evaluate/{positionId}")
     public String saveEvaluation(@PathVariable("positionId") Integer positionId, @ModelAttribute("evaluation") Evaluation evaluation, Model model) {
 		
     	try {
@@ -90,7 +90,7 @@ public class ProfessorController {
 		}
     }
     
-    @GetMapping("/new-professor-form")
+    @RequestMapping("/professor/new-professor-form")
     public String showProfessorForm(@ModelAttribute("professor") Professor prof, Model model) {
         return "professor/new-professor-form";
     }

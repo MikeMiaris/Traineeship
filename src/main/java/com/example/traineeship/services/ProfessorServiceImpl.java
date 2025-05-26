@@ -4,8 +4,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.traineeship.domainmodel.Evaluation;
+import com.example.traineeship.domainmodel.EvaluationType;
 import com.example.traineeship.domainmodel.Professor;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
+import com.example.traineeship.mappers.EvaluationMapper;
 import com.example.traineeship.mappers.ProfessorMapper;
 import com.example.traineeship.mappers.TraineeshipPositionMapper;
 
@@ -17,13 +19,17 @@ public class ProfessorServiceImpl implements ProfessorService{
 
     @Autowired
     private TraineeshipPositionMapper positionMapper;
+    
+    @Autowired
+    private EvaluationMapper evalMapper;
 
 
     
     @Autowired
-    public ProfessorServiceImpl(ProfessorMapper professorMapper, TraineeshipPositionMapper positionMapper ) {
+    public ProfessorServiceImpl(ProfessorMapper professorMapper, TraineeshipPositionMapper positionMapper, EvaluationMapper evalMapper ) {
     	this.professorMapper = professorMapper;
     	this.positionMapper = positionMapper;
+    	this.evalMapper = evalMapper;
     }
     
     
@@ -70,6 +76,10 @@ public class ProfessorServiceImpl implements ProfessorService{
 		
 		pos.addEvaluation(evaluation);
 		positionMapper.save(pos);
+		
+		evaluation.setTraineeshipPosition(pos);
+		evaluation.setEvalType(EvaluationType.COMPANY);
+		evalMapper.save(evaluation);
 		
     }
 	

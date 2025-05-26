@@ -4,6 +4,7 @@ import com.example.traineeship.domainmodel.Company;
 import com.example.traineeship.domainmodel.Evaluation;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
 import com.example.traineeship.mappers.CompanyMapper;
+import com.example.traineeship.mappers.EvaluationMapper;
 import com.example.traineeship.mappers.TraineeshipPositionMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,13 +18,15 @@ public class CompanyServiceTest {
 
     private CompanyMapper companyMapper;
     private TraineeshipPositionMapper positionMapper;
+    private EvaluationMapper evaluationMapper;
     private CompanyServiceImpl companyService;
 
     @BeforeEach
     void setUp() {
         companyMapper = mock(CompanyMapper.class);
         positionMapper = mock(TraineeshipPositionMapper.class);
-        companyService = new CompanyServiceImpl(companyMapper, positionMapper);
+        evaluationMapper = mock(EvaluationMapper.class);
+        companyService = new CompanyServiceImpl(companyMapper, positionMapper, evaluationMapper);
     }
 
     @Test

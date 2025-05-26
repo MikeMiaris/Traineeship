@@ -3,6 +3,7 @@ package com.example.traineeship.services;
 import com.example.traineeship.domainmodel.Evaluation;
 import com.example.traineeship.domainmodel.Professor;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
+import com.example.traineeship.mappers.EvaluationMapper;
 import com.example.traineeship.mappers.ProfessorMapper;
 import com.example.traineeship.mappers.TraineeshipPositionMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,13 +18,15 @@ public class ProfessorServiceTest {
 
     private ProfessorMapper professorMapper;
     private TraineeshipPositionMapper positionMapper;
+    private EvaluationMapper evaluationMapper;
     private ProfessorServiceImpl professorService;
 
     @BeforeEach
     void setUp() {
         professorMapper = mock(ProfessorMapper.class);
         positionMapper = mock(TraineeshipPositionMapper.class);
-        professorService = new ProfessorServiceImpl(professorMapper, positionMapper);
+        evaluationMapper = mock(EvaluationMapper.class);
+        professorService = new ProfessorServiceImpl(professorMapper, positionMapper, evaluationMapper);
     }
 
     @Test

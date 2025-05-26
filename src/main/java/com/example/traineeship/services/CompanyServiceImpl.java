@@ -9,20 +9,27 @@ import org.springframework.stereotype.Service;
 
 import com.example.traineeship.domainmodel.Company;
 import com.example.traineeship.domainmodel.Evaluation;
+import com.example.traineeship.domainmodel.EvaluationType;
 import com.example.traineeship.domainmodel.TraineeshipPosition;
 import com.example.traineeship.mappers.CompanyMapper;
+import com.example.traineeship.mappers.EvaluationMapper;
 import com.example.traineeship.mappers.TraineeshipPositionMapper;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
-
-	private final CompanyMapper companyMapper;
-	private final TraineeshipPositionMapper traineeshipPositionMapper;
 	
 	@Autowired
-	public CompanyServiceImpl(CompanyMapper companyMapper, TraineeshipPositionMapper traineeshipPositionMapper) {
+	private final CompanyMapper companyMapper;
+	@Autowired
+	private final TraineeshipPositionMapper traineeshipPositionMapper;
+	@Autowired
+	private final EvaluationMapper evalMapper;
+	
+	@Autowired
+	public CompanyServiceImpl(CompanyMapper companyMapper, TraineeshipPositionMapper traineeshipPositionMapper, EvaluationMapper evalMapper) {
 		this.companyMapper = companyMapper;
 		this.traineeshipPositionMapper = traineeshipPositionMapper;
+		this.evalMapper = evalMapper;
 	}
 	
 	@Override
@@ -112,7 +119,7 @@ public class CompanyServiceImpl implements CompanyService {
 		traineeshipPositionMapper.save(position);
 		evaluation.setTraineeshipPosition(position);
 		evaluation.setEvalType(EvaluationType.COMPANY);
-		evaluationMapper.save(evaluation);
+		evalMapper.save(evaluation);
 		
 	}
 	
