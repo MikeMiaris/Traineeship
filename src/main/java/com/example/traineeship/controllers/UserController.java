@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.traineeship.domainmodel.Company;
 import com.example.traineeship.domainmodel.Professor;
+import com.example.traineeship.domainmodel.Student;
 import com.example.traineeship.domainmodel.User;
 import com.example.traineeship.services.UserServiceImpl;
 
@@ -61,6 +62,11 @@ public class UserController {
         // Redirect based on role
         switch (user.getRole()) {
             case STUDENT:
+            	Student student = new Student();
+            	student.setUsername(user.getUsername());
+            	
+            	red.addFlashAttribute("student", student);
+            	
                 return "redirect:/student/new-student-form";
             
             case COMPANY:
