@@ -76,6 +76,11 @@ public class Evaluation {
         this.effectiveness = effectiveness;
     }
 
-
+    public void setEvalType(EvaluationType evaltype){
+        this.evaluationType = evaltype;
+    }
 	
+    public void setTraineeshipPosition(TraineeshipPosition position){
+        this.traineeshipPosition = position;
+    }
 }
