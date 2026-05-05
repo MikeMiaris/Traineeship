@@ -124,8 +124,9 @@ Testing was implemented to verify parts of the application:
 ## How to Run
 
 1. Clone the repository
-2. Run the application using Eclipse as an IDE
-3. Open in browser:
+2. Have a local MySQL server up and running
+3. Run the application using Eclipse as an IDE
+4. Open in browser:
 
    ```
    http://localhost:8080
